@@ -6,24 +6,16 @@ import time
 # Define the serial port and baud rate
 ser = serial.Serial('/dev/ttyUSB0', 115200)  # Replace 'COM1' with your serial port
 
+# Function to parse data
 def parse_data(data):
-    # Create a dictionary to store the parsed data
     parsed_data = {}
+    lines = data.strip().split('\n')
 
-    # Check if the data starts with an OBIS reference
-    if data.startswith('0-0:96.1.1'):
-        parts = data.split(' ', 1)
+    for line in lines:
+        parts = line.split('(', 1)
         if len(parts) == 2:
-            obis_reference, value = parts
-            parsed_data['Equipment Identifier'] = value
-
-    elif data.startswith('1-0:1.8.1'):
-        parts = data.split(' ', 1)
-        if len(parts) == 2:
-            obis_reference, value = parts
-            parsed_data['Meter Reading (Normal Tariff)'] = value
-
-    # Add more conditions for other OBIS references as needed
+            key, value = parts
+            parsed_data[key] = value
 
     return parsed_data
 
@@ -37,15 +29,10 @@ if __name__ == "__main__":
     parser.add_argument('-V', '--view', action='store_true', help='Display data with tabulate')
     args = parser.parse_args()
 
-    while True:
-        try:
-            data = ser.readline().decode('utf-8').strip()  # Assuming the data is in UTF-8 format
-
-            # Check if the data transmission is complete
-            if data.startswith('!'):
-                break
-
-            parsed_data = parse_data(data)
+    try:
+        while True:
+            data = ser.read_until(b'!')
+            parsed_data = parse_data(data.decode('utf-8'))
 
             if args.view:
                 display_tabulated_data(parsed_data)
@@ -55,9 +42,9 @@ if __name__ == "__main__":
 
             # Wait for 1 second before reading the next data
             time.sleep(1)
-        except KeyboardInterrupt:
-            # Exit the loop gracefully when Ctrl+C is pressed
-            break
-
-    # Close the serial port
-    ser.close()
+    except KeyboardInterrupt:
+        # Exit the loop gracefully when Ctrl+C is pressed
+        pass
+    finally:
+        # Close the serial port
+        ser.close()
