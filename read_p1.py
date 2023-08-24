@@ -166,8 +166,7 @@ def main():
                             if debug:
                                 print(f"desc:{r[0]}, val:{r[1]}, u:{r[2]}")
                     print(tabulate(output,
-                                   headers=['Description', 'Value', 'Unit'],
-                                   tablefmt='github'))
+                                   headers=['Description', 'Value', 'Unit']))
         except KeyboardInterrupt:
             print("Stopping...")
             ser.close()
