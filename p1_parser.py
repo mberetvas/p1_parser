@@ -22,7 +22,16 @@ def parse_data(data):
 # Function to display data with tabulate
 def display_tabulated_data(data_dict):
     table_data = [(key, value) for key, value in data_dict.items()]
-    print(tabulate(table_data, headers=['Field', 'Value'], tablefmt='grid'))
+    table = tabulate(table_data, headers=['Field', 'Value'], tablefmt='grid', stralign='left', numalign='left')
+    table = table.replace('+-', '+').replace('-+', '+').replace('-|', '|').replace('|-', '|')
+    
+    # Add start and end messages
+    header = "P1 Telegram Start"
+    footer = "P1 Telegram End"
+
+    print(header.center(len(table.split('\n')[0])))
+    print(table)
+    print(footer.center(len(table.split('\n')[0])))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Parse and display serial data')
