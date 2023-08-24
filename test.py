@@ -66,6 +66,7 @@ with serial.Serial('/dev/ttyUSB0', 115200) as ser:
 
             # Optionally, print the data to the console
             print(data.decode('ascii'))
+            print(data.decode('ascii').type())
 
     except KeyboardInterrupt:
         print("Capture stopped by user")
