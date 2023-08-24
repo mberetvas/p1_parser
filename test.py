@@ -17,7 +17,7 @@ import traceback
 serialport = '/dev/ttyUSB0'
 
 # Enable debug if needed:
-debug = False
+debug = True
 
 # Add/update OBIS codes here:
 obiscodes = {
