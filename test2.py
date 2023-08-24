@@ -30,8 +30,8 @@ obiscodes = {
     "0-1:24.2.3":"gas_verbruik" # Last value of 'not temperature corrected' gas volume in m³,including decimal values and capture time
 }
 
-# Create an empty DataFrame
-df = pd.DataFrame(columns=obiscodes.values())
+# Create an empty list to store dictionaries
+data_list = []
 
 # Open the serial port
 with serial.Serial('/dev/ttyUSB0', 115200) as ser:
@@ -53,12 +53,16 @@ with serial.Serial('/dev/ttyUSB0', 115200) as ser:
                     description = obiscodes[obis_code]
                     values_dict[description] = value
 
-            # Append the extracted values to the DataFrame
+            # Append the extracted values to the list of dictionaries
             if values_dict:
-                df = df.append(values_dict, ignore_index=True)
+                data_list.append(values_dict)
 
     except KeyboardInterrupt:
         print("Capture stopped by user")
+
+# Convert the list of dictionaries into a DataFrame
+if data_list:
+    df = pd.DataFrame(data_list)
 
 # Print the DataFrame
 print(df)
