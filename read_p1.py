@@ -38,31 +38,34 @@ obiscodes = {
     "0-1:96.1.1": "Meter serial gas",
     "0-0:96.14.0": "Current rate (1=day,2=night)",
     "0-0:98.1.0":"e-meter ID",
-    "1-0:1.6.0": "Maximum Demand of running month in KW",
-    "1-0:1.8.1": "Rate 1 (day) - total consumption",
-    "1-0:1.8.2": "Rate 2 (night) - total consumption",
-    "1-0:2.8.1": "Rate 1 (day) - total production",
-    "1-0:2.8.2": "Rate 2 (night) - total production",
+    "1-0:1.6.0": "Maximale afnamepiek van de huidige maand",
+    "1-0:1.8.0":"Totale afgenomen energie in kWh",
+    "1-0:1.8.1": "Totale afname in kWh dagtarief ",
+    "1-0:1.8.2": "Totale afname in kWh nachttarief ",
+    "1-0:2.8.0": "Totale geïnjecteerde energie in kWh",
+    "1-0:2.8.1": "Totale injectie in kWh dagtarief ",
+    "1-0:2.8.2": "Totale injectie in kWh nachttarief ",
     "1-0:21.7.0": "L1 consumption",
     "1-0:41.7.0": "L2 consumption",
     "1-0:61.7.0": "L3 consumption",
-    "1-0:1.7.0": "All phases consumption",
+    "1-0:1.7.0": "Afgenomen ogenblikkelijk vermogen in kW",
     "1-0:22.7.0": "L1 production",
     "1-0:42.7.0": "L2 production",
     "1-0:62.7.0": "L3 production",
-    "1-0:2.7.0": "All phases production",
+    "1-0:2.7.0": "Geïnjecteerd ogenblikkelijk vermogen in kW",
     "1-0:32.7.0": "L1 voltage",
     "1-0:52.7.0": "L2 voltage",
     "1-0:72.7.0": "L3 voltage",
     "1-0:31.7.0": "L1 current",
     "1-0:51.7.0": "L2 current",
     "1-0:71.7.0": "L3 current",
-    "0-1:24.2.3": "Gas consumption"
+    "0-1:24.2.3": "Gas consumption",
+    "0-0:17.0.0":"limit threshold"
 }
 
 def checkcrc(p1telegram):
     # Initialize p1contents
-    p1contents = None
+    p1contents = True
     
     # check CRC16 checksum of telegram and return False if not matching
     # split telegram in contents and CRC16 checksum (format:contents!crc)
