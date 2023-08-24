@@ -1,4 +1,5 @@
 import serial
+import re
 
 
 # Dict with obiscode description
@@ -55,6 +56,23 @@ columns = [
     "gas klep stand",
     "laatste gas volume m³"
     ]
+
+
+# Create a dictionary to store values by their respective IDs
+values_dict = {}
+
+# Define a regular expression pattern to extract values
+pattern = r'(\d+-\d+:\d+\.\d+\.\d+)\(([^)]+)\)'
+
+# Use re.finditer to find and extract values from each line
+for match in re.finditer(pattern, data_string):
+    obis_code = match.group(1)
+    value = match.group(2)
+    values_dict[obis_code] = value
+
+# Print the extracted values
+for obis_code, value in values_dict.items():
+    print(f"ID: {obis_code}, Value: {value}")
 
 # Open the serial port
 with serial.Serial('/dev/ttyUSB0', 115200) as ser:
