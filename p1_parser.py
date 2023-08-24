@@ -50,14 +50,14 @@ def parse_data(data):
         parts = line.split('(', 1)
         if len(parts) == 2:
             key, value = parts
-            if key in obis_code_meanings:
+            if key in obis_codes:
                 parsed_data[key] = value
 
     return parsed_data
 
 # Function to display data with tabulate
 def display_tabulated_data(data_dict):
-    table_data = [(obis_code_meanings[key], value) for key, value in data_dict.items()]
+    table_data = [(obis_codes[key], value) for key, value in data_dict.items()]
     table = tabulate(table_data, headers=['Field', 'Value'], tablefmt='grid', stralign='left', numalign='left')
     table = table.replace('+-', '+').replace('-+', '+').replace('-|', '|').replace('|-', '|')
     
