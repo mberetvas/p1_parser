@@ -3,7 +3,7 @@ import argparse
 from tabulate import tabulate
 
 # Define the serial port and baud rate
-ser = serial.Serial('/dev/ttyUSB0', 115200)  # Replace 'COM1' with your serial port
+ser = serial.Serial('COM1', 115200)  # Replace 'COM1' with your serial port
 
 # Create a dictionary to store the parsed data
 parsed_data = {}
@@ -14,12 +14,16 @@ while True:
 
     # Check if the data starts with an OBIS reference
     if data.startswith('0-0:96.1.1'):
-        obis_reference, value = data.split(' ', 1)
-        parsed_data['Equipment Identifier'] = value
+        parts = data.split(' ', 1)
+        if len(parts) == 2:
+            obis_reference, value = parts
+            parsed_data['Equipment Identifier'] = value
 
     elif data.startswith('1-0:1.8.1'):
-        obis_reference, value = data.split(' ', 1)
-        parsed_data['Meter Reading (Normal Tariff)'] = value
+        parts = data.split(' ', 1)
+        if len(parts) == 2:
+            obis_reference, value = parts
+            parsed_data['Meter Reading (Normal Tariff)'] = value
 
     # Add more conditions for other OBIS references as needed
 
