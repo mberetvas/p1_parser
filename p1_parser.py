@@ -1,16 +1,14 @@
 import serial
 import argparse
 from tabulate import tabulate
+import time
 
 # Define the serial port and baud rate
-ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)  # Replace 'COM1' with your serial port
+ser = serial.Serial('/dev/ttyUSB0', 115200)  # Replace 'COM1' with your serial port
 
-# Create a dictionary to store the parsed data
-parsed_data = {}
-
-# Read data from the serial port
-while True:
-    data = ser.readline().decode('utf-8').strip()  # Assuming the data is in UTF-8 format
+def parse_data(data):
+    # Create a dictionary to store the parsed data
+    parsed_data = {}
 
     # Check if the data starts with an OBIS reference
     if data.startswith('0-0:96.1.1'):
@@ -27,12 +25,7 @@ while True:
 
     # Add more conditions for other OBIS references as needed
 
-    # Check if the data transmission is complete
-    if data.startswith('!'):
-        break
-
-# Close the serial port
-ser.close()
+    return parsed_data
 
 # Function to display data with tabulate
 def display_tabulated_data(data_dict):
@@ -44,8 +37,27 @@ if __name__ == "__main__":
     parser.add_argument('-V', '--view', action='store_true', help='Display data with tabulate')
     args = parser.parse_args()
 
-    if args.view:
-        display_tabulated_data(parsed_data)
-    else:
-        for key, value in parsed_data.items():
-            print(f'{key}: {value}')
+    while True:
+        try:
+            data = ser.readline().decode('utf-8').strip()  # Assuming the data is in UTF-8 format
+
+            # Check if the data transmission is complete
+            if data.startswith('!'):
+                break
+
+            parsed_data = parse_data(data)
+
+            if args.view:
+                display_tabulated_data(parsed_data)
+            else:
+                for key, value in parsed_data.items():
+                    print(f'{key}: {value}')
+
+            # Wait for 1 second before reading the next data
+            time.sleep(1)
+        except KeyboardInterrupt:
+            # Exit the loop gracefully when Ctrl+C is pressed
+            break
+
+    # Close the serial port
+    ser.close()
