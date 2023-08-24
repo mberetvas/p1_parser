@@ -3,7 +3,7 @@ import argparse
 from tabulate import tabulate
 
 # Define the serial port and baud rate
-ser = serial.Serial('ttyUSB0', 115200)  # Replace 'COM1' with your serial port
+ser = serial.Serial('/dev/ttyUSB0', 115200)  # Replace 'COM1' with your serial port
 
 # Create a dictionary to store the parsed data
 parsed_data = {}
