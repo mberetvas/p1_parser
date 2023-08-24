@@ -142,7 +142,7 @@ def main():
                 print("Reading: ", p1line.strip())
             # P1 telegram starts with /
             # We need to create a new empty telegram (was ASCII)
-            if "/" in p1line.decode('utf-8'):
+            if "/" in p1line.decode('ascii'):
                 if debug:
                     print("Found beginning of P1 telegram")
                 p1telegram = bytearray()
@@ -150,17 +150,17 @@ def main():
             # add line to complete telegram
             p1telegram.extend(p1line)
             # P1 telegram ends with ! + CRC16 checksum (was ascii)
-            if "!" in p1line.decode('utf-8'):
+            if "!" in p1line.decode('ascii'):
                 if debug:
                     print("Found end, printing full telegram")
                     print('*' * 40)
-                    print(p1telegram.decode('utf-8').strip())
+                    print(p1telegram.decode('ascii').strip())
                     print('*' * 40)
                 if checkcrc(p1telegram):
                     # parse telegram contents, line by line
                     output = []
                     for line in p1telegram.split(b'\r\n'):
-                        r = parsetelegramline(line.decode('utf-8'))
+                        r = parsetelegramline(line.decode('ascii'))
                         if r:
                             output.append(r)
                             if debug:
