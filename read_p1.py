@@ -37,6 +37,8 @@ obiscodes = {
     "0-0:96.1.1": "Meter serial electricity",
     "0-1:96.1.1": "Meter serial gas",
     "0-0:96.14.0": "Current rate (1=day,2=night)",
+    "0-0:98.1.0":"e-meter ID",
+    "1-0:1.6.0": "Maximum Demand of running month in KW",
     "1-0:1.8.1": "Rate 1 (day) - total consumption",
     "1-0:1.8.2": "Rate 2 (night) - total consumption",
     "1-0:2.8.1": "Rate 1 (day) - total production",
