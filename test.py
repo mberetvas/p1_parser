@@ -9,7 +9,7 @@ try:
         data = ser.readline()
 
         # Optionally, print the data to the console
-        print(data.decode('utf-8'))
+        print(data.decode('ascii'))
 
 except KeyboardInterrupt:
     print("Capture stopped by user")
