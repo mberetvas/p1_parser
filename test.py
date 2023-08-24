@@ -29,7 +29,7 @@ obiscodes = {
     "0-1:24.2.3":"Last value of 'not temperature corrected' gas volume in m³,including decimal values and capture time"
 }
 
-# Columns
+# Columns te gebruiken voor database
 columns = [
     "version information",
     "equipment id",
@@ -57,18 +57,15 @@ columns = [
     ]
 
 # Open the serial port
-ser = serial.Serial('/dev/ttyUSB0', 115200)
+with serial.Serial('/dev/ttyUSB0', 115200) as ser:
 
-try:
-    while True:
-        # Read data from the serial port
-        data = ser.readline()
+    try:
+        while True:
+            # Read data from the serial port
+            data = ser.readline()
 
-        # Optionally, print the data to the console
-        print(data.decode('ascii'))
+            # Optionally, print the data to the console
+            print(data.decode('ascii'))
 
-except KeyboardInterrupt:
-    print("Capture stopped by user")
-finally:
-    # Close the serial port and log file
-    ser.close()
+    except KeyboardInterrupt:
+        print("Capture stopped by user")
