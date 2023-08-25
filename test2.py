@@ -50,9 +50,10 @@ def main():
                 if "!" in line:
                     print(data,"\n","\n")
                     data = {}
-                line.replace(")", " ")
+
                 x = line.split("(")
-                data[x[0]] = x[1:]
+                
+                data[x[0]] = [item.strip(")") for item in x[1:]]
 
 
 
