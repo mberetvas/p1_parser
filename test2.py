@@ -46,12 +46,11 @@ def main():
 
 
             for line in lines:
-                print("debug: ",line,"\n\n")
 
                 if "!" in line:
                     for k,v in data.items():
                         print(k," =" ,v)
-                        print("end of data","\n\n\n")
+                    print("end of data","\n\n\n")
                     data = {}
 
                 line = line.strip(")\r")
