@@ -59,7 +59,7 @@ def main():
                 # Read data from the serial port
                 p1data = ser.readline().decode("ascii")
 
-                print(p1data.splitlines()[0].split("(").strip(")"))
+                print(p1data.splitlines()[0].strip(")").split("("))
 
             except KeyboardInterrupt:
                 print("Capture stopped by user")
