@@ -42,13 +42,22 @@ with serial.Serial('/dev/ttyUSB0', 115200) as ser:
             pattern = r'(\d+-\d+:\d+\.\d+\.\d+)\(([^)]+)\)'
 
             # Use re.finditer to find and extract values from the received data
-            values_dict = {}
             for match in re.finditer(pattern, data):
                 obis_code = match.group(1)
                 value = match.group(2)
+
+                # Check if the OBIS code is already in the dictionary
                 if obis_code in obiscodes:
                     description = obiscodes[obis_code]
-                    values_dict[description] = value
+
+                    # Check if the description key already exists in the dictionary
+                    if description in values_dict:
+                        # If it does, append the new value to the list
+                        values_dict[description].append(value)
+                    else:
+                        # If it doesn't, create a new list with the value
+                        values_dict[description] = [value]
+
             print(values_dict)
 
     except KeyboardInterrupt:
