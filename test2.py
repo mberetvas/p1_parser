@@ -59,7 +59,8 @@ def main():
                 try:
                     data[obiscodes[x[0]]] = [item.strip(")") for item in x[1:]] 
                 except:
-                    print("did not find corresponding obiscode:", x[0],"\n")
+                    if debug == True:
+                        print("did not find corresponding obiscode:", x[0],"\n")
                     continue
 
 
