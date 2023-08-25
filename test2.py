@@ -59,11 +59,10 @@ def main():
                 try:
                     for item in x[1:]:
                         stripped_item = item.strip(")")
-                        values = stripped_item.split("(")
-                        print("\n",len(values)," = ",values,"\n")
+                        print("\n",len(stripped_item)," = ",stripped_item,"\n")
                         
-                        if len(values) == 1:
-                            values = values.split("*")
+                        if len(stripped_item) == 1:
+                            values = stripped_item.split("*")
                             data[obiscodes[x[0]]] = values[0]
                         else:
                             data[obiscodes[x[0]]] = stripped_item
