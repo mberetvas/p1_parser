@@ -61,7 +61,7 @@ with serial.Serial('/dev/ttyUSB0', 115200) as ser:
                         # If it doesn't, create a new list with the value
                         values_dict[description] = [value]
 
-            print(values_dict)
+            print("\n", values_dict, "\n")
 
     except KeyboardInterrupt:
         print("Capture stopped by user")
