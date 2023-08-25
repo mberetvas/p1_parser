@@ -42,11 +42,9 @@ def main():
             data = {}
 
             for line in lines:
-                match = re.match(r"^([0-9]{2}-[0-9]{2}:[0-9]{3}.[0-9]{3})(.*)", line)
-                if match:
-                    data[match.group(1)] = match.group(2)
+                print(line)
 
-            print(data)
+
 
 
 if __name__ == '__main__':
