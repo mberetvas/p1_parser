@@ -35,7 +35,7 @@ def main():
     telegram = bytearray()
     
     # Open the serial port
-    with serial.Serial('/dev/ttyUSB0', 115200) as ser:
+    with serial.Serial('/dev/ttyUSB0', 115200, xonxoff=1) as ser:
         while True:
             try:
                 # Read data from the serial port
