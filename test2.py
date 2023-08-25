@@ -41,12 +41,13 @@ def main():
             # Read data from the serial port
             p1data = ser.readline().decode("ascii")
             
-            lines = p1data.split("\n").strip("\r")
+            lines = p1data.split("\n")
             if debug == True:
                 print("\n\n",lines,"\n\n")
 
 
             for line in lines:
+                line.strip("\r")
                 if "!" in line:
                     print(data,"\n","\n")
                     data = {}
