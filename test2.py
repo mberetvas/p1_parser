@@ -31,86 +31,34 @@ obiscodes = {
 }
 
 # def main():
-
-    # # Open the serial port
-    # with serial.Serial('/dev/ttyUSB0', 115200, xonxoff=1) as ser:
-    #     while True:
-    #         try:
-    #             # Read data from the serial port
-    #             p1data = ser.readline().decode("ascii").strip()
-                
-    #             if "/" in p1data:
-    #                 print("Start of telegram:\n")
-    #                 print(p1data.split("\n"))
-
-    #             else:
-    #                 if "!" in p1data
-    #                 print("End of telegram \n")
-
-    #         except KeyboardInterrupt:
-    #             print("Capture stopped by user")
-    #             ser.close()
-                
-    # Open the serial port
-#     with serial.Serial('/dev/ttyUSB0', 115200, timeout=1) as ser:
-#         telegram = {}
-#         while True:
-#             try:
-#                 # Read data from the serial port
-#                 p1data = ser.readline().decode("ascii")
-#                 listp1 = p1data.splitlines()[0].strip(")").split("(")
-#                 print(listp1)
-
-#             except KeyboardInterrupt:
-#                 print("Capture stopped by user")
-#                 break
-
-# if __name__ == '__main__':
-#     main()
-
-# def main():
 #     # Open the serial port
-#     with serial.Serial('/dev/ttyUSB0', 115200, timeout=1) as ser:
+#     with serial.Serial('/dev/ttyUSB0', 115200) as ser:
 #         while True:
 #             # Read data from the serial port
 #             p1data = ser.readline().decode("ascii")
             
 #             print(p1data)
 
-# if __name__ == '__main__':
-#     main()
-
 def main():
     # Open the serial port
-    with serial.Serial('/dev/ttyUSB0', 115200, timeout=1) as ser:
-        # Initialize an empty dictionary to store parsed data
-        parsed_data = {}
-
-        # Define regular expressions for extracting key-value pairs
-        pattern = re.compile(r'([^\s]+)\(([^)]+)\)')
-
+    with serial.Serial('/dev/ttyUSB0', 115200) as ser:
         while True:
             # Read data from the serial port
             p1data = ser.readline().decode("ascii")
             
-            # Find all key-value pairs using regular expression
-            matches = pattern.findall(p1data)
+            # Find all obiscodes in the data
+            matches = re.findall(r'([0-9]{3}-[0-9]{3}):([0-9]{3}):(.*)', p1data)
 
-            # Extract and store the key-value pairs in the dictionary
+            # Create a dictionary to store the parsed data
+            parsed_data = {}
             for match in matches:
                 key = match[0]
-                values = match[1].split('*')  # Split multiple values by '*'
+                values = match[2]
+                parsed_data[key] = values
 
-                # If there is only one value, store it as is; otherwise, store as a list
-                if len(values) == 1:
-                    parsed_data[key] = values[0]
-                else:
-                    parsed_data[key] = values
-
-            # Create a DataFrame from the parsed data using the obiscodes as column names
-            df = pd.DataFrame([parsed_data], columns=[obiscodes.get(key, key) for key in parsed_data.keys()])
-
-            # Display the DataFrame
+            # Create a Pandas DataFrame from the parsed data
+            df = pd.DataFrame.from_dict
+            
             print(df)
 
 if __name__ == '__main__':
