@@ -68,14 +68,50 @@ obiscodes = {
 # if __name__ == '__main__':
 #     main()
 
+# def main():
+#     # Open the serial port
+#     with serial.Serial('/dev/ttyUSB0', 115200, timeout=1) as ser:
+#         while True:
+#             # Read data from the serial port
+#             p1data = ser.readline().decode("ascii")
+            
+#             print(p1data)
+
+# if __name__ == '__main__':
+#     main()
+
 def main():
     # Open the serial port
     with serial.Serial('/dev/ttyUSB0', 115200, timeout=1) as ser:
+        # Initialize an empty dictionary to store parsed data
+        parsed_data = {}
+
+        # Define regular expressions for extracting key-value pairs
+        pattern = re.compile(r'([^\s]+)\(([^)]+)\)')
+
         while True:
             # Read data from the serial port
             p1data = ser.readline().decode("ascii")
             
-            print(p1data)
+            # Find all key-value pairs using regular expression
+            matches = pattern.findall(p1data)
+
+            # Extract and store the key-value pairs in the dictionary
+            for match in matches:
+                key = match[0]
+                values = match[1].split('*')  # Split multiple values by '*'
+
+                # If there is only one value, store it as is; otherwise, store as a list
+                if len(values) == 1:
+                    parsed_data[key] = values[0]
+                else:
+                    parsed_data[key] = values
+
+            # Create a DataFrame from the parsed data
+            df = pd.DataFrame(parsed_data.items(), columns=['Parameter', 'Value'])
+
+            # Display the DataFrame
+            print(df)
 
 if __name__ == '__main__':
     main()
