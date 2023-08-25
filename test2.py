@@ -43,38 +43,7 @@ with serial.Serial('/dev/ttyUSB0', 115200) as ser:
         while True:
             # Read data from the serial port
             data = ser.readline().decode('ascii')
-
-            # Define a regular expression pattern to extract values
-            pattern = r'(\d+-\d+:\d+\.\d+\.\d+)\(([^)]+)\)'
-
-            # Use re.finditer to find and extract values from the received data
-            for match in re.finditer(pattern, data):
-                obis_code = match.group(1)
-                values_in_parentheses = match.group(2)
-
-                # Check if the OBIS code is already in the dictionary
-                if obis_code in obiscodes:
-                    description = obiscodes[obis_code]
-
-                    # Check if it's "1-0:1.6.0"
-                    if obis_code == "1-0:1.6.0":
-                        # Extract multiple values within parentheses
-                        values = re.findall(r'\(([^)]+)\)', values_in_parentheses)
-                        if description in obis_1_6_0_values:
-                            obis_1_6_0_values[description].extend(values)
-                        else:
-                            obis_1_6_0_values[description] = values
-                    else:
-                        # For other OBIS codes, store the value as usual
-                        values_dict[description] = values_in_parentheses
-
-            # Print the values_dict
-            if values_dict:
-                print("\nOther Values:", values_dict)
-
-            # Print the values for "1-0:1.6.0" if they exist
-            if obis_1_6_0_values:
-                print("\n1-0:1.6.0 Values:", obis_1_6_0_values)
+            print(data.split("\n"))
 
     except KeyboardInterrupt:
         print("Capture stopped by user")
