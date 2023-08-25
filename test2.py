@@ -59,15 +59,14 @@ def main():
 
                 try:
                     for item in x:
-                        print(item)
                         stripped_item = item.strip(")")
                         # print("\n",len(stripped_item)," = ",stripped_item,"\n")
                         
-                        if len(stripped_item) == 1:
-                            values = stripped_item.split("*")
-                            data[obiscodes[x[0]]] = values[0]
+                        if len(stripped_item) < 3:
+                            values = stripped_item[1:].split("*")
+                            data[obiscodes[stripped_item[0]]] = values[0]
                         else:
-                            data[obiscodes[x[0]]] = stripped_item
+                            data[obiscodes[stripped_item[0]]] = stripped_item[1:]
                 except:
                     if debug == True:
                         print("did not find corresponding obiscode:", x[0],"\n")
