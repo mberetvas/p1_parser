@@ -31,19 +31,14 @@ obiscodes = {
 }
 
 def main():
-    
-    telegram = bytearray()
-    
+
     # Open the serial port
     with serial.Serial('/dev/ttyUSB0', 115200, xonxoff=1) as ser:
         while True:
             try:
                 # Read data from the serial port
                 p1data = ser.readline()
-                telegram.extend(p1data)
-                
-
-                print(telegram)
+                print(p1data.split("\r"))
 
             except KeyboardInterrupt:
                 print("Capture stopped by user")
