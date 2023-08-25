@@ -52,7 +52,7 @@ def main():
     #             ser.close()
                 
     # Open the serial port
-    with serial.Serial('/dev/ttyUSB0', 115200, xonxoff=1) as ser:
+    with serial.Serial('/dev/ttyUSB0', 115200, timeout=1) as ser:
         telegram = ""
         while True:
             try:
@@ -64,7 +64,7 @@ def main():
                     print("Start of telegram:\n")
                     telegram += p1data + "\n"
 
-                elif " !" in p1data:
+                elif "!" in p1data:
                     # End of the current telegram
                     telegram += p1data + "\n"
                     print(telegram)
