@@ -46,6 +46,7 @@ def main():
 
 
             for line in lines:
+                print("debug: ",line,"\n\n")
 
                 if "!" in line:
                     for k,v in data.items():
