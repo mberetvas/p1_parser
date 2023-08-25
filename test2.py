@@ -38,7 +38,7 @@ def main():
             p1data = ser.readline().decode("ascii")
             
             lines = p1data.split("\n")
-
+            print(lines)
             data = {}
             n=0
             if "/" in lines:
