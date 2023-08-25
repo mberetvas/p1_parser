@@ -40,7 +40,7 @@ def main():
             p1data = ser.readline().decode("ascii")
             
             lines = p1data.split("\n")
-            print(lines)
+            print("\n\n",lines,"\n\n")
 
 
             for line in lines:
