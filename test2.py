@@ -33,25 +33,24 @@ obiscodes = {
 def main():
     # Open the serial port
     with serial.Serial('/dev/ttyUSB0', 115200) as ser:
+        data = {}
+
         while True:
             # Read data from the serial port
             p1data = ser.readline().decode("ascii")
             
             lines = p1data.split("\n")
             print(lines)
-            data = {}
-            n=0
-            
+
+
             for line in lines:
                 if "!" in line:
+                    print(data,"\n","\n")
                     data = {}
-                    
-                n += 1
-                print(n)
+
                 x = line.split("(")
                 data[x[0]] = x[1:]
 
-            print(data, "\n\n")
 
 
 
