@@ -53,16 +53,16 @@ def main():
                 
     # Open the serial port
     with serial.Serial('/dev/ttyUSB0', 115200, timeout=1) as ser:
-        telegram = ""
+        telegram = {}
         while True:
             try:
                 # Read data from the serial port
                 p1data = ser.readline().decode("ascii")
-
-                listp1 = list(p1data.splitlines()[0].strip(") ").split("("))
-
-                print(listp1)
+                listp1 = p1data.splitlines()[0].strip(") ").split("(")
+                telegram[listp1[0]] = listp1[1:]
                 
+                print(telegram)
+
             except KeyboardInterrupt:
                 print("Capture stopped by user")
                 break
