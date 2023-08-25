@@ -49,12 +49,12 @@ def main():
             for line in lines:
 
                 if "!" in line:
-                    #print(data,"\n","\n")
+                    print(data,"\n","\n")
                     data = {}
 
+                line = line.strip(")\r")
                 x = line.split("(")
-                print(line)
-                print("\n\n",line.strip(")\r"))
+
                 data[x[0]] = x[1:]
 
 
