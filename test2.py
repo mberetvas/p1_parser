@@ -56,10 +56,10 @@ def main():
                 line = line.strip(")\r")
 
                 x = line.split("(")
-                print(x)
-                try:
-                    for item in x[1:]:
 
+                try:
+                    for item in x:
+                        print(item)
                         stripped_item = item.strip(")")
                         # print("\n",len(stripped_item)," = ",stripped_item,"\n")
                         
