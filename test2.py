@@ -59,7 +59,7 @@ def main():
             # Create a Pandas DataFrame from the parsed data
             df = pd.DataFrame.from_dict
             
-            print(df)
+            print(parsed_data)
 
 if __name__ == '__main__':
     main()
