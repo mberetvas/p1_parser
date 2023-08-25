@@ -30,7 +30,7 @@ obiscodes = {
     "0-1:24.2.3":"gas_verbruik" # Last value of 'not temperature corrected' gas volume in m³,including decimal values and capture time
 }
 
-def main():
+# def main():
 
     # # Open the serial port
     # with serial.Serial('/dev/ttyUSB0', 115200, xonxoff=1) as ser:
@@ -52,15 +52,46 @@ def main():
     #             ser.close()
                 
     # Open the serial port
+#     with serial.Serial('/dev/ttyUSB0', 115200, timeout=1) as ser:
+#         telegram = {}
+#         while True:
+#             try:
+#                 # Read data from the serial port
+#                 p1data = ser.readline().decode("ascii")
+#                 listp1 = p1data.splitlines()[0].strip(")").split("(")
+#                 print(listp1)
+
+#             except KeyboardInterrupt:
+#                 print("Capture stopped by user")
+#                 break
+
+# if __name__ == '__main__':
+#     main()
+
+import serial
+
+def main():
+    # Open the serial port
     with serial.Serial('/dev/ttyUSB0', 115200, timeout=1) as ser:
-        telegram = {}
         while True:
             try:
                 # Read data from the serial port
-                p1data = ser.readline().decode("ascii")
-                listp1 = p1data.splitlines()[0].strip(") ").split("(")
-                telegram[listp1[0]] = listp1[1:]
-                
+                p1data = ser.readline().decode("ascii").strip()
+
+                # Split the data into a list based on parentheses and whitespace
+                data_list = p1data.strip(") ").split("(")
+
+                # Create a dictionary to store the data
+                telegram = {}
+
+                # Process the data list
+                for item in data_list:
+                    key_value = item.split(" ")
+                    if len(key_value) == 2:
+                        key, value = key_value
+                        telegram[key] = value
+
+                # Print the telegram dictionary
                 print(telegram)
 
             except KeyboardInterrupt:
