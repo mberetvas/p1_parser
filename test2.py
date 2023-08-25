@@ -59,23 +59,7 @@ def main():
                 # Read data from the serial port
                 p1data = ser.readline().decode("ascii")
 
-                if "/" in p1data:
-                    # Start of the current telegram
-                    print("Start of telegram:\n")
-                    p1data_list = p1data.split("\n")
-                    telegram = p1data_list
-
-                elif "!" in p1data:
-                    # End of the current telegram
-                    # telegram = p1data + "\n"
-                    print(telegram)
-                    print("End of telegram:\n")
-
-                    telegram = ""
-
-                else:
-                    # Inside a telegram, add to the current telegram data
-                    telegram += p1data + "\n"
+                print(p1data.splitlines())
 
             except KeyboardInterrupt:
                 print("Capture stopped by user")
