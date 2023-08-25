@@ -44,8 +44,9 @@ def main():
 
             for line in lines:
                 n += 1
-                print(line)
                 print(n)
+                print(line)
+                
 
 
 
