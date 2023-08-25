@@ -58,8 +58,9 @@ def main():
                 x = line.split("(")
                 try:
                     for item in x[1:]:
+                        print(item)
                         stripped_item = item.strip(")")
-                        print("\n",len(stripped_item)," = ",stripped_item,"\n")
+                        # print("\n",len(stripped_item)," = ",stripped_item,"\n")
                         
                         if len(stripped_item) == 1:
                             values = stripped_item.split("*")
