@@ -2,6 +2,8 @@ import serial
 import re
 import pandas as pd
 
+
+
 # Dict with obiscode description
 obiscodes = {
     "0-0:96.1.4":"verson_info",  # Versie informatie xxxyy waar xxx=dsmr p1 versie en yy=e-MUCs-h versie
@@ -40,14 +42,15 @@ def main():
             p1data = ser.readline().decode("ascii")
             
             lines = p1data.split("\n")
-            print("\n\n",lines,"\n\n")
+            if debug == True:
+                print("\n\n",lines,"\n\n")
 
 
             for line in lines:
                 if "!" in line:
                     print(data,"\n","\n")
                     data = {}
-                line.strip(")")
+                line.replace(")", " ")
                 x = line.split("(")
                 data[x[0]] = x[1:]
 
@@ -56,4 +59,5 @@ def main():
 
 
 if __name__ == '__main__':
+    debug = False
     main()
