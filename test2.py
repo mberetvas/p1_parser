@@ -49,7 +49,7 @@ def main():
             for line in lines:
 
                 if "!" in line:
-                    for k,v in data:
+                    for k,v in data.items():
                         print(k," =" ,v,"\n")
                     data = {}
 
