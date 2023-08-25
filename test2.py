@@ -76,27 +76,6 @@ def main():
         while True:
             try:
                 # Read data from the serial port
-                p1data = ser.readline().decode("ascii").strip()
-
-                # Split the data into a list based on parentheses and whitespace
-                data_list = p1data.strip(") ").split("(")
-
-                # Create a dictionary to store the data
-                telegram = {}
-
-                # Process the data list
-                for item in data_list:
-                    key_value = item.split(" ")
-                    if len(key_value) == 2:
-                        key, value = key_value
-                        telegram[key] = value
-
-                # Print the telegram dictionary
-                print(telegram)
-
-            except KeyboardInterrupt:
-                print("Capture stopped by user")
-                break
-
-if __name__ == '__main__':
-    main()
+                p1data = ser.readline().decode("ascii")
+                
+                print(p1data)
