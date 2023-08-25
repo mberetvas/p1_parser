@@ -30,20 +30,23 @@ obiscodes = {
     "0-1:24.2.3":"gas_verbruik" # Last value of 'not temperature corrected' gas volume in m³,including decimal values and capture time
 }
 
-# Initialize a dictionary to store values for each OBIS code
-values_dict = {}
-
-# Initialize a dictionary specifically for "1-0:1.6.0" with lists to store multiple values
-obis_1_6_0_values = {}
-
-# Open the serial port
-with serial.Serial('/dev/ttyUSB0', 115200) as ser:
-
-    try:
+def main():
+    
+    telegram = bytearray()
+    
+    # Open the serial port
+    with serial.Serial('/dev/ttyUSB0', 115200) as ser:
         while True:
-            # Read data from the serial port
-            data = ser.readline().decode('ascii')
-            print(data.split("\n"))
+            try:
+                # Read data from the serial port
+                p1data = ser.readline()
+                telegram.extend(p1data)
+                
 
-    except KeyboardInterrupt:
-        print("Capture stopped by user")
+                print(telegram)
+
+            except KeyboardInterrupt:
+                print("Capture stopped by user")
+
+if __name__ == '__main__':
+    main()
