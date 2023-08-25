@@ -107,8 +107,8 @@ def main():
                 else:
                     parsed_data[key] = values
 
-            # Create a DataFrame from the parsed data
-            df = pd.DataFrame(parsed_data.items(), columns=['Parameter', 'Value'])
+            # Create a DataFrame from the parsed data using the obiscodes as column names
+            df = pd.DataFrame({obiscodes.get(key, key): value for key, value in parsed_data.items()})
 
             # Display the DataFrame
             print(df)
