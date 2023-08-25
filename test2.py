@@ -41,12 +41,16 @@ def main():
 
             data = {}
             n=0
+            if "/" in lines:
+                for line in lines:
+                    n += 1
+                    print(n)
+                    x = line.split("(")
+                    data[x[0]] = x[1:]
 
-            for line in lines:
-                n += 1
-                print(n)
-                print(line)
-                
+            elif "!" in lines:
+                break
+            print(data, "\n\n")
 
 
 
