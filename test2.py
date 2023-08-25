@@ -50,7 +50,7 @@ def main():
                 if "!" in line:
                     for k,v in data.items():
                         print(k," =" ,v)
-                    print("end of data","\n\n\n")
+                    print("\n","end of data","\n\n\n")
                     data = {}
 
                 line = line.strip(")\r")
