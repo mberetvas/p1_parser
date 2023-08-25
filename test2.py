@@ -62,8 +62,8 @@ def main():
                 if "/" in p1data:
                     # Start of the current telegram
                     print("Start of telegram:\n")
-                    p1data.split()
-                    telegram += p1data + "\n"
+                    p1data_list = p1data.split()
+                    telegram += p1data_list
 
                 elif "!" in p1data:
                     # End of the current telegram
