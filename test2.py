@@ -36,8 +36,17 @@ def main():
         while True:
             # Read data from the serial port
             p1data = ser.readline().decode("ascii")
+            
+            lines = p1data.split("\n")
 
-            print(p1data)
+            data = {}
+
+            for line in lines:
+                match = re.match(r"(0-0:1.0.0)(.*)", line)
+                if match:
+                    data[match.group(1)] = match.group(2)
+
+            print(data)
 
 
 if __name__ == '__main__':
