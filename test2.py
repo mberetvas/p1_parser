@@ -57,7 +57,7 @@ def main():
 
                 x = line.split("(")
 
-                data[x[0]] = [item.strip(")") for item in x[1:]] 
+                data[obiscodes[x[0]]] = [item.strip(")") for item in x[1:]] 
 
 
 
