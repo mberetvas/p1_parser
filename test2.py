@@ -38,7 +38,7 @@ def main():
             try:
                 # Read data from the serial port
                 p1data = ser.readline()
-                print(p1data.split("\r"))
+                print(p1data.split("\n"))
 
             except KeyboardInterrupt:
                 print("Capture stopped by user")
