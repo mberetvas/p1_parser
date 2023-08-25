@@ -47,14 +47,15 @@ def main():
 
 
             for line in lines:
-                line.strip()
+
                 if "!" in line:
-                    print(data,"\n","\n")
+                    #print(data,"\n","\n")
                     data = {}
 
                 x = line.split("(")
-                
-                data[x[0]] = [item.strip(")") for item in x[1:]]
+                print(line)
+                print("\n\n",line.strip(")\r"))
+                data[x[0]] = x[1:]
 
 
 
