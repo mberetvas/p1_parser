@@ -59,6 +59,7 @@ def main():
                 try:
                     for item in x[1:]:
                         stripped_item = item.strip(")")
+                        print("\n",len(stripped_item),"\n")
                         
                         if len(stripped_item) < 3:
                             if "*" in stripped_item:
