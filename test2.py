@@ -60,7 +60,7 @@ def main():
                 try:
                     for item in x:
                         stripped_item = item.strip(")")
-                        print("\n",len(stripped_item)," = ",stripped_item,"\n")
+                        print("\n",len(item)," = ",item,"\n")
                         
                         if len(stripped_item) < 3:
                             values = stripped_item[1:].split("*")
