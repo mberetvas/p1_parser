@@ -1,17 +1,7 @@
 import serial
 import re
-import logging
-from datetime import datetime
+import pandas as pd
 
-# Configuration
-SERIAL_PORT = '/dev/ttyUSB0'
-DEBUG_MODE = False
-
-# Generate a timestamp for the log file name
-timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-
-# Define the log file name with the timestamp
-LOG_FILE_NAME = f"parser_{timestamp}.log"
 
 # Dict with obiscode description
 obiscodes = {
@@ -42,44 +32,104 @@ obiscodes = {
 }
 
 def main():
-    # Configure logging
-    logging.basicConfig(level=logging.DEBUG if DEBUG_MODE else logging.INFO, filename=LOG_FILE_NAME)
-
     # Open the serial port
-    with serial.Serial(SERIAL_PORT, 115200) as ser:
+    with serial.Serial('/dev/ttyUSB0', 115200) as ser:
         data = {}
 
         while True:
-            try:
-                # Read data from the serial port
-                p1data = ser.readline().decode("ascii")
-                
-                lines = p1data.split("\n")
-
-                for line in lines:
-                    if "!" in line:
-                        process_and_log_data(data)
-                        data = {}
-                    else:
-                        parse_line(line, data)
+            # Read data from the serial port
+            p1data = ser.readline().decode("ascii")
             
-            except serial.SerialException as e:
-                logging.error(f"Serial communication error: {e}")
+            lines = p1data.split("\n")
+            if debug == True:
+                print("\n\n",lines,"\n\n")
 
-def process_and_log_data(data):
-    for k, v in data.items():
-        logging.info(f"{k} = {v}")
-    logging.info("End of data\n")
-    # Here, you can add additional processing or logging if needed
 
-def parse_line(line, data):
-    line = line.strip(")\r")
-    x = line.split("(")
-    try:
-        data[obiscodes[x[0]]] = [item.strip(")") for item in x[1:]] 
-    except KeyError:
-        if DEBUG_MODE:
-            logging.debug(f"Did not find corresponding obiscode: {x[0]}")
+            for line in lines:
+
+                if "!" in line:
+                    for k,v in data.items():
+                        print(k," =" ,v)
+                    print("end of data","\n\n\n")
+                    data = {}
+
+                line = line.strip(")\r")
+
+                x = line.split("(")
+                try:
+                    data[obiscodes[x[0]]] = [item.strip(")") for item in x[1:]] 
+                except:
+                    if debug == True:
+                        print("did not find corresponding obiscode:", x[0],"\n")
+                    continue
+
+
+
 
 if __name__ == '__main__':
+    debug = False
     main()
+
+
+# import serial
+# import re
+# import logging
+# from datetime import datetime
+
+# # Configuration
+# SERIAL_PORT = '/dev/ttyUSB0'
+# DEBUG_MODE = False
+
+# # Generate a timestamp for the log file name
+# timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+# # Define the log file name with the timestamp
+# LOG_FILE_NAME = f"parser_{timestamp}.log"
+
+# # Dict with obiscode description
+# obiscodes = {
+#     # ... (your obiscodes dictionary)
+# }
+
+# def main():
+#     # Configure logging
+#     logging.basicConfig(level=logging.DEBUG if DEBUG_MODE else logging.INFO, filename=LOG_FILE_NAME)
+
+#     # Open the serial port
+#     with serial.Serial(SERIAL_PORT, 115200) as ser:
+#         data = {}
+
+#         while True:
+#             try:
+#                 # Read data from the serial port
+#                 p1data = ser.readline().decode("ascii")
+                
+#                 lines = p1data.split("\n")
+
+#                 for line in lines:
+#                     if "!" in line:
+#                         process_and_log_data(data)
+#                         data = {}
+#                     else:
+#                         parse_line(line, data)
+            
+#             except serial.SerialException as e:
+#                 logging.error(f"Serial communication error: {e}")
+
+# def process_and_log_data(data):
+#     for k, v in data.items():
+#         logging.info(f"{k} = {v}")
+#     logging.info("End of data\n")
+#     # Here, you can add additional processing or logging if needed
+
+# def parse_line(line, data):
+#     line = line.strip(")\r")
+#     x = line.split("(")
+#     try:
+#         data[obiscodes[x[0]]] = [item.strip(")") for item in x[1:]] 
+#     except KeyError:
+#         if DEBUG_MODE:
+#             logging.debug(f"Did not find corresponding obiscode: {x[0]}")
+
+# if __name__ == '__main__':
+#     main()
