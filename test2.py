@@ -63,11 +63,11 @@ def main():
                     # Start of the current telegram
                     print("Start of telegram:\n")
                     p1data_list = p1data.split()
-                    telegram += p1data_list
+                    telegram = p1data_list
 
                 elif "!" in p1data:
                     # End of the current telegram
-                    telegram += p1data + "\n"
+                    # telegram = p1data + "\n"
                     print(telegram)
                     print("End of telegram:\n")
 
