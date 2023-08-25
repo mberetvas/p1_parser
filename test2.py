@@ -68,17 +68,14 @@ obiscodes = {
 # if __name__ == '__main__':
 #     main()
 
-import serial
-
 def main():
     # Open the serial port
     with serial.Serial('/dev/ttyUSB0', 115200, timeout=1) as ser:
         while True:
-            try:
-                # Read data from the serial port
-                p1data = ser.readline().decode("ascii")
-                
-                print(p1data)
+            # Read data from the serial port
+            p1data = ser.readline().decode("ascii")
+            
+            print(p1data)
 
 if __name__ == '__main__':
     main()
