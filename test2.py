@@ -30,36 +30,15 @@ obiscodes = {
     "0-1:24.2.3":"gas_verbruik" # Last value of 'not temperature corrected' gas volume in m³,including decimal values and capture time
 }
 
-# def main():
-#     # Open the serial port
-#     with serial.Serial('/dev/ttyUSB0', 115200) as ser:
-#         while True:
-#             # Read data from the serial port
-#             p1data = ser.readline().decode("ascii")
-            
-#             print(p1data)
-
 def main():
     # Open the serial port
     with serial.Serial('/dev/ttyUSB0', 115200) as ser:
         while True:
             # Read data from the serial port
             p1data = ser.readline().decode("ascii")
-            
-            # Find all obiscodes in the data
-            matches = re.findall(r'([0-9]{3}-[0-9]{3}):([0-9]{3}):(.*)', p1data)
+            print(ser.read_until("!"),"\n")
+            print(p1data)
 
-            # Create a dictionary to store the parsed data
-            parsed_data = {}
-            for match in matches:
-                key = match[0]
-                values = match[2]
-                parsed_data[key] = values
-
-            # Create a Pandas DataFrame from the parsed data
-            df = pd.DataFrame.from_dict
-            
-            print(parsed_data)
 
 if __name__ == '__main__':
     main()
