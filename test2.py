@@ -57,7 +57,7 @@ def main():
 
                 x = line.split("(")
                 x = [item.replace(")","") for item in x]
-                print("first print ",x)
+                # print("first print ",x)
 
                 try:
 
