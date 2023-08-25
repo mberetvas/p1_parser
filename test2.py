@@ -30,6 +30,9 @@ obiscodes = {
     "0-1:24.2.3":"gas_verbruik" # Last value of 'not temperature corrected' gas volume in m³,including decimal values and capture time
 }
 
+# Initialize a dictionary to store values for each OBIS code
+values_dict = {}
+
 # Open the serial port
 with serial.Serial('/dev/ttyUSB0', 115200) as ser:
 
