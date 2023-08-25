@@ -37,7 +37,7 @@ def main():
         while True:
             try:
                 # Read data from the serial port
-                p1data = ser.readline()
+                p1data = ser.readline().decode("ascii")
                 print(p1data.split("\n"))
 
             except KeyboardInterrupt:
