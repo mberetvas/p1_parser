@@ -64,7 +64,7 @@ def main():
                     print("Start of telegram:\n")
                     telegram += p1data + "\n"
 
-                elif "!" in p1data:
+                elif " !" in p1data:
                     # End of the current telegram
                     telegram += p1data + "\n"
                     print(telegram)
