@@ -108,7 +108,7 @@ def main():
                     parsed_data[key] = values
 
             # Create a DataFrame from the parsed data using the obiscodes as column names
-            df = pd.DataFrame({obiscodes.get(key, key): value for key, value in parsed_data.items()})
+            df = pd.DataFrame([parsed_data], columns=[obiscodes.get(key, key) for key in parsed_data.keys()])
 
             # Display the DataFrame
             print(df)
