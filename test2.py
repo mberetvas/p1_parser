@@ -3,7 +3,6 @@ import re
 import pandas as pd
 
 
-
 # Dict with obiscode description
 obiscodes = {
     "0-0:96.1.4":"verson_info",  # Versie informatie xxxyy waar xxx=dsmr p1 versie en yy=e-MUCs-h versie
@@ -50,7 +49,8 @@ def main():
 
                 if "!" in line:
                     for k,v in data.items():
-                        print(k," =" ,v,"\n")
+                        print(k," =" ,v)
+                        print("end of data","\n\n\n")
                     data = {}
 
                 line = line.strip(")\r")
