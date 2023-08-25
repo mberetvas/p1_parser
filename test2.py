@@ -42,7 +42,7 @@ def main():
             data = {}
 
             for line in lines:
-                match = re.match(r"(0-0:1.0.0)(.*)", line)
+                match = re.match(r"(0-0:98.1.0)(.*)", line)
                 if match:
                     data[match.group(1)] = match.group(2)
 
