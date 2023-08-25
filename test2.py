@@ -40,9 +40,12 @@ def main():
             lines = p1data.split("\n")
 
             data = {}
+            n=0
 
             for line in lines:
                 print(line)
+                n += 1
+                print(n)
 
 
 
