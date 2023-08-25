@@ -50,7 +50,7 @@ with serial.Serial('/dev/ttyUSB0', 115200) as ser:
             # Use re.finditer to find and extract values from the received data
             for match in re.finditer(pattern, data):
                 obis_code = match.group(1)
-                value = match.group(2)
+                values_in_parentheses = match.group(2)
 
                 # Check if the OBIS code is already in the dictionary
                 if obis_code in obiscodes:
@@ -58,14 +58,15 @@ with serial.Serial('/dev/ttyUSB0', 115200) as ser:
 
                     # Check if it's "1-0:1.6.0"
                     if obis_code == "1-0:1.6.0":
-                        # Append the value to the list
+                        # Extract multiple values within parentheses
+                        values = re.findall(r'\(([^)]+)\)', values_in_parentheses)
                         if description in obis_1_6_0_values:
-                            obis_1_6_0_values[description].append(value)
+                            obis_1_6_0_values[description].extend(values)
                         else:
-                            obis_1_6_0_values[description] = [value]
+                            obis_1_6_0_values[description] = values
                     else:
                         # For other OBIS codes, store the value as usual
-                        values_dict[description] = value
+                        values_dict[description] = values_in_parentheses
 
             # Print the values_dict
             if values_dict:
