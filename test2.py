@@ -36,7 +36,7 @@ def main():
         while True:
             # Read data from the serial port
             p1data = ser.readline().decode("ascii")
-            print(ser.read_until("!"),"\n")
+
             print(p1data)
 
 
