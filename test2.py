@@ -47,6 +47,7 @@ def main():
 
             except KeyboardInterrupt:
                 print("Capture stopped by user")
+                ser.close()
 
 if __name__ == '__main__':
     main()
