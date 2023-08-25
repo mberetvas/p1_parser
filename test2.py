@@ -43,8 +43,8 @@ def main():
             n=0
 
             for line in lines:
-                print(line)
                 n += 1
+                print(line)
                 print(n)
 
 
