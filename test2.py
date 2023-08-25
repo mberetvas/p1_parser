@@ -53,11 +53,10 @@ def main():
                     data = {}
 
                 line = line.strip(")\r")
-                line = line.strip(")")
 
                 x = line.split("(")
 
-                data[x[0]] = x[1:]
+                data[x[0]] = [item.strip(")") for item in x[1:]] 
 
 
 
