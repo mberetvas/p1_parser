@@ -57,7 +57,7 @@ def main():
         while True:
             try:
                 # Read data from the serial port
-                p1data = ser.readline().decode("utf-8").strip()
+                p1data = ser.readline().decode("ascii").strip()
 
                 if "/" in p1data:
                     # Start of the current telegram
@@ -69,7 +69,7 @@ def main():
                     telegram += p1data + "\n"
                     print(telegram)
                     print("End of telegram:\n")
-                    
+                    print(telegram.type())
                     telegram = ""
 
                 else:
