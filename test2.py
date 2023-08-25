@@ -47,7 +47,7 @@ def main():
                 if "!" in line:
                     print(data,"\n","\n")
                     data = {}
-
+                line.strip(")")
                 x = line.split("(")
                 data[x[0]] = x[1:]
 
