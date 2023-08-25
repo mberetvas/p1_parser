@@ -79,3 +79,6 @@ def main():
                 p1data = ser.readline().decode("ascii")
                 
                 print(p1data)
+
+if __name__ == '__main__':
+    main()
