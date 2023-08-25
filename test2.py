@@ -47,7 +47,7 @@ def main():
 
 
             for line in lines:
-                line.strip("\r")
+                line.replace("\\r"," ")
                 if "!" in line:
                     print(data,"\n","\n")
                     data = {}
