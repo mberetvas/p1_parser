@@ -3,7 +3,7 @@ import re
 import pandas as pd
 
 
-# Dict with obiscode description
+# Dict with obiscode description (24)
 obiscodes = {
     "0-0:96.1.4":"verson_info",  # Versie informatie xxxyy waar xxx=dsmr p1 versie en yy=e-MUCs-h versie
     "0-0:96.1.1":"equipment_id", # Hex encoded equip. id according to DIN 43863-5
@@ -47,7 +47,7 @@ def main():
 
             for line in lines:
 
-                if "!" in line:
+                if line.startswith("!"):
                     for k,v in data.items():
                         print(k," =" ,v)
                     print("\n","end of data","\n\n\n")
