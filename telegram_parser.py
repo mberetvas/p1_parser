@@ -26,13 +26,14 @@ def main():
             
             # read data
             p1_line = ser.readline()
+            decoded_p1 = p1_line.decode('ascii')
 
             # check begginning of telegram
-            if "/" in p1_line:
+            if "/" in decoded_p1:
                 telegram = bytearray()
             telegram.extend(p1_line)
             
-            if "!" in p1_line:
+            if "!" in decoded_p1:
                 print(telegram)
             
 
