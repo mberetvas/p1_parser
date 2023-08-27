@@ -22,7 +22,6 @@ def main():
     
     with serial.Serial(**config) as ser:
         while True:
-            telegram = bytearray()
             
             # read data
             p1_line = ser.readline()
@@ -31,7 +30,7 @@ def main():
             # check begginning of telegram
             if "/" in decoded_p1:
                 telegram = bytearray()
-            telegram = telegram.extend(p1_line)
+            telegram.extend(p1_line)
             print("\n")
             print(telegram)
 
