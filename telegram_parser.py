@@ -34,7 +34,7 @@ def main():
             telegram.extend(p1_line)
             print(telegram)
             if "!" in decoded_p1:
-                print(telegram)
+        
             
 
 if __name__ == "__main__":
