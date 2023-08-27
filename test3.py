@@ -1,11 +1,10 @@
 import serial
 import binascii
 
-CRC16_POLY = 0xEDB88320
+CRC16_POLY = 0xA001
 
 def crc16(data):
     """Calculates the CRC-16 of the given data."""
-    print(data)
     crc = 0xFFFF
     for byte in data:
         crc ^= byte
@@ -15,7 +14,7 @@ def crc16(data):
                 crc ^= CRC16_POLY
             else:
                 crc >>= 1
-    return crc
+    return crc & 0xFFFF
 
 def check_crc(telegram):
     """Checks the CRC code of the given telegram."""
@@ -28,10 +27,8 @@ def check_crc(telegram):
         if exclamation_index != -1 and exclamation_index + 5 <= len(telegram):
             expected_crc = binascii.unhexlify(telegram[exclamation_index + 1:exclamation_index + 5])
             calculated_crc = crc16(telegram[:exclamation_index + 1])
-            print("expected crc: ",expected_crc)
-            print("calculated crc: ",calculated_crc)
             
-            if calculated_crc == expected_crc:
+            if calculated_crc == int.from_bytes(expected_crc, byteorder='big'):
                 return True
         return False
     except Exception as e:
@@ -58,11 +55,10 @@ def main():
         
         while True:
             p1_line = ser.readline()
+            telegram.extend(p1_line)
             
             if "/" in p1_line.decode('ascii'):
                 telegram = bytearray()
-
-            telegram.extend(p1_line)
             
             if p1_line.decode('ascii').startswith('!'):
                 if check_crc(telegram):
