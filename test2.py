@@ -62,10 +62,21 @@ def main():
     # Open the serial port
     with serial.Serial('/dev/ttyUSB0', 115200) as ser:
         data = {}
+        p1telegram = bytearray()
 
         while True:
             # Read data from the serial port
-            p1data = ser.readline().decode("ascii")
+            p1line = ser.readline()
+            p1data = p1line.decode("ascii")
+            
+            if "/" in p1data:
+                p1telegram = bytearray()
+            
+            p1telegram.extend(p1line)
+            
+            if "!" in p1data:
+                if checkcrc(p1telegram):
+                    print("**************crc ok***********************")
             
             lines = p1data.split("\n")
             if debug == True:
