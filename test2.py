@@ -61,7 +61,8 @@ def main():
                     data = {}
 
                 # line = line.strip(")\r")
-                line = line.replace(")"," ")
+                # replace ")" and "\r" with empty space
+                line = line.replace(")"," ").replace("\r", " ")
                 
                 print("line.strip(')\\r')")
                 print(line)
