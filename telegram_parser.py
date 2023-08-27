@@ -29,7 +29,7 @@ def main():
             
             # read data
             p1_line = ser.readline()
-            print(p1_line)
+            print(p1_line.decode('ascii'))
             # if new telegram reinitialize telegram object
             if "/" in p1_line.decode('ascii'):
                 telegram = bytearray()
