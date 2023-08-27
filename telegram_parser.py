@@ -56,7 +56,7 @@ def main():
                 print(telegram)
                 
                 try:
-                    print(crc16(telegram))
+                    print(hex(crc16(telegram)))
                 except:
                     print("crc nok")
 
