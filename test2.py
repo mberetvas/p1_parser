@@ -65,22 +65,19 @@ def main():
                     if len(x) < 3:
                         if "*" in x[1]:
                             values = x[1].split("*")
-                            data[obiscodes[x[0]]] = values[0]
+                            # remove all non numbers
+                            value = ''.join(c for c in values[0] if c.isdigit())
+                            data[obiscodes[x[0]]] = value
+
+                            # data[obiscodes[x[0]]] = values[0]
                         else:
-                            data[obiscodes[x[0]]] = x[1]
+                            # data[obiscodes[x[0]]] = x[1]
+                            # remove all non numbers
+                            value = ''.join(c for c in x[1] if c.isdigit())
+                            data[obiscodes[x[0]]] = value
                     else:
                         data[obiscodes[x[0]]] = x[1:]
-                    
 
-                    # for item in x:
-                    #     stripped_item = item.replace(")", "")
-                    #     print("\n","second print ",len(item)," = ",item,"\n")
-                        
-                    #     if len(stripped_item) < 3:
-                    #         values = stripped_item[1:].split("*")
-                    #         data[obiscodes[stripped_item[0]]] = values[0]
-                    #     else:
-                    #         data[obiscodes[stripped_item[0]]] = stripped_item[1:]
                 except:
                     if debug == True:
                         print("did not find corresponding obiscode:", x[0],"\n")
