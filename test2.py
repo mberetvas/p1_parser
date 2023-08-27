@@ -60,7 +60,8 @@ def main():
                     # empty dict data
                     data = {}
 
-                line = line.strip(")\r")
+                # line = line.strip(")\r")
+                line = line.replace(")"," ")
                 
                 print("line.strip(')\\r')")
                 print(line)
@@ -69,7 +70,7 @@ def main():
                 x = line.split("(")
                 x = [item.replace(")","") for item in x]
                 
-                print("\n")
+                print("\n","line.split")
                 print(x)
                 print("\n")
                 # print("first print ",x)
