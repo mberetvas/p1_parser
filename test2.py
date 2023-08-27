@@ -51,7 +51,13 @@ def main():
                     print("*"*65,"\n",'Start Telegram:\n',"*"*65,"\n")
                     for k,v in data.items():
                         print(k," =" ,v)
-                    print("\n","*"*65,"\nend of data","\n","*"*65,"\n\n\n\n")
+
+                    print("\n")
+                    print("*"*65,"\n")
+                    print("end of data","\n")
+                    print("*"*65,"\n\n\n\n")
+                    
+                    # empty dict data
                     data = {}
 
                 line = line.strip(")\r")
