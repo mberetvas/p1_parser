@@ -61,9 +61,17 @@ def main():
                     data = {}
 
                 line = line.strip(")\r")
-
+                
+                print("line.strip(')\r')")
+                print(line)
+                print("\n")
+                
                 x = line.split("(")
                 x = [item.replace(")","") for item in x]
+                
+                print("\n")
+                print(x)
+                print("\n")
                 # print("first print ",x)
 
                 try:
