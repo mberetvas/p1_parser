@@ -1,45 +1,43 @@
 import serial
 import binascii
 
+CRC16_POLY = 0xEDB88320
+
 def crc16(data):
     """Calculates the CRC-16 of the given data."""
     crc = 0xFFFF
     for byte in data:
         crc ^= byte
-        for i in range(8):
+        for _ in range(8):
             if crc & 1:
                 crc >>= 1
-                crc ^= 0xEDB88320
+                crc ^= CRC16_POLY
             else:
                 crc >>= 1
     return crc
 
-def checkcrc(telegram):
+def check_crc(telegram):
     """Checks the CRC code of the given telegram."""
     try:
         if len(telegram) < 2:
             return False
 
-        # Find the position of '!' in the telegram
         exclamation_index = telegram.find(b'!')
-
-        if exclamation_index != -1:
+        
+        if exclamation_index != -1 and exclamation_index + 5 <= len(telegram):
             expected_crc = binascii.unhexlify(telegram[exclamation_index + 1:exclamation_index + 5])
-            print("expected crc = ",expected_crc)
             calculated_crc = crc16(telegram[:exclamation_index + 1])
-            print("calculated_crc = ",calculated_crc)
-
+            
             if calculated_crc == expected_crc:
                 return True
         return False
-    except:
-        print("error in checkcrc(telegram)")
-
+    except Exception as e:
+        print(f"Error in check_crc(telegram): {e}")
+        return False
 
 def parse_telegram(telegram):
     """Parses the given telegram and returns the data."""
     data = telegram[:-2]
-
     return data
 
 def main():
@@ -53,21 +51,17 @@ def main():
     }
     
     with serial.Serial(**config) as ser:
+        telegram = bytearray()
+        
         while True:
-            telegram = bytearray()
-            
-            # read data
             p1_line = ser.readline()
+            telegram.extend(p1_line)
             
-            # if new telegram reinitialize telegram object
             if "/" in p1_line.decode('ascii'):
                 telegram = bytearray()
             
-            telegram.extend(p1_line)
-            
             if p1_line.decode('ascii').startswith('!'):
-                # telegram complete (end of telegram is the crc code exampl: "!hex code")
-                if checkcrc(telegram):
+                if check_crc(telegram):
                     data = parse_telegram(telegram)
                     print(data)
                 else:
