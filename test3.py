@@ -55,10 +55,11 @@ def main():
         
         while True:
             p1_line = ser.readline()
-            telegram.extend(p1_line)
             
             if "/" in p1_line.decode('ascii'):
                 telegram = bytearray()
+
+            telegram.extend(p1_line)
             
             if p1_line.decode('ascii').startswith('!'):
                 if check_crc(telegram):
