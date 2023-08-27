@@ -157,6 +157,7 @@ def main():
                     print(p1telegram.decode('ascii').strip())
                     print('*' * 40)
                 if checkcrc(p1telegram):
+                    print("crc OK")
                     # parse telegram contents, line by line
                     output = []
                     for line in p1telegram.split(b'\r\n'):
