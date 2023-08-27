@@ -72,14 +72,14 @@ def main():
                         if "*" in x[1]:
                             values = x[1].split("*")
                             # remove all non numbers
-                            value = ''.join(c for c in values[0] if c.isdigit())
+                            value = ''.join(c for c in values[0] if c.isdigit() or c == '.')
                             data[obiscodes[x[0]]] = value
 
                             # data[obiscodes[x[0]]] = values[0]
                         else:
                             # data[obiscodes[x[0]]] = x[1]
                             # remove all non numbers
-                            value = ''.join(c for c in x[1] if c.isdigit())
+                            value = ''.join(c for c in x[1] if c.isdigit() or c == '.')
                             data[obiscodes[x[0]]] = value
                     else:
                         data[obiscodes[x[0]]] = x[1:]
