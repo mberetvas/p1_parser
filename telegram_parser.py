@@ -33,7 +33,7 @@ def main():
                 telegram = bytearray()
             telegram.extend(p1_line)
             print(telegram)
-            if "!" in decoded_p1:
+            #if "!" in decoded_p1:
         
             
 
