@@ -36,7 +36,7 @@ def main():
                 continue
             
             if "!" in decoded_p1:
-                print("\n")
+                # print complete telegram
                 print(telegram)
 
 if __name__ == "__main__":
