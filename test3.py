@@ -27,6 +27,8 @@ def check_crc(telegram):
         if exclamation_index != -1 and exclamation_index + 5 <= len(telegram):
             expected_crc = binascii.unhexlify(telegram[exclamation_index + 1:exclamation_index + 5])
             calculated_crc = crc16(telegram[:exclamation_index + 1])
+            print("expected crc: ",expected_crc)
+            print("calculated crc: ",calculated_crc)
             
             if calculated_crc == expected_crc:
                 return True
