@@ -32,7 +32,7 @@ def main():
             if "/" in decoded_p1:
                 telegram = bytearray()
             telegram.extend(p1_line)
-            
+            print(telegram)
             if "!" in decoded_p1:
                 print(telegram)
             
