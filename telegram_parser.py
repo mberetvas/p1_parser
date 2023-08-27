@@ -31,7 +31,7 @@ def main():
             # check begginning of telegram
             if "/" in decoded_p1:
                 telegram = bytearray()
-            telegram.extend(p1_line)
+            telegram = telegram.extend(p1_line)
             print("\n")
             print(telegram)
 
