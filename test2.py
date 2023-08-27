@@ -62,7 +62,7 @@ def main():
 
                 line = line.strip(")\r")
                 
-                print("line.strip(')\r')")
+                print("line.strip(')\\r')")
                 print(line)
                 print("\n")
                 
