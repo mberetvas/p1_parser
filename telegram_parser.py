@@ -30,19 +30,22 @@ def crc16(data):
     
 def checkcrc(telegram):
     """Checks the CRC code of the given telegram."""
-    if len(telegram) < 2:
+    try:
+        if len(telegram) < 2:
+            return False
+
+        # Find the position of '!' in the telegram
+        exclamation_index = telegram.find(b'!')
+
+        if exclamation_index != -1:
+            expected_crc = binascii.unhexlify(telegram[exclamation_index + 1:exclamation_index + 5])
+            calculated_crc = crc16(telegram[:exclamation_index + 1])
+
+            if calculated_crc == expected_crc:
+                return True
         return False
-
-    # Find the position of '!' in the telegram
-    exclamation_index = telegram.find(b'!')
-
-    if exclamation_index != -1:
-        expected_crc = binascii.unhexlify(telegram[exclamation_index + 1:exclamation_index + 5])
-        calculated_crc = crc16(telegram[:exclamation_index + 1])
-
-        if calculated_crc == expected_crc:
-            return True
-    return False
+    except:
+        print("error in checkcrc(telegram)")
 
 
 def parse_telegram(telegram):
