@@ -8,10 +8,7 @@ def checkcrc(telegram):
 
 
 def parse_telegram(telegram):
-    """Parses the given telegram and returns the data."""
-    data = telegram
-
-    return data
+    pass
 
 def main():
     # Create a configuration dictionary
@@ -29,22 +26,15 @@ def main():
             
             # read data
             p1_line = ser.readline()
-            telegram.extend(p1_line)
-            print(telegram)
-            # if new telegram reinitialize telegram object
-            if "/" in p1_line.decode('ascii'):
-                telegram = bytearray()
-            
-            telegram.extend(p1_line)
-            
-            if p1_line.decode('ascii').startswith('!'):
-                # telegram complete (end of telegram is the crc code exampl: "!hex code")
-                if checkcrc(telegram):
-                    data = parse_telegram(telegram)
-                    print(data)
 
-                else:
-                    print("CRC error")
+            # check begginning of telegram
+            if "/" in p1_line:
+                telegram = bytearray()
+            telegram.extend(p1_line)
+            
+            if "!" in p1_line:
+                print(telegram)
+            
 
 if __name__ == "__main__":
     main()
