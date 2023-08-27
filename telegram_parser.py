@@ -31,15 +31,16 @@ def parse_telegram(telegram):
     return data
 
 def main():
-    config = (
-        port="/dev/ttyUSB0",
-        baudrate=115200,
-        bytesize=8,
-        parity=serial.PARITY_NONE,
-        stopbits=serial.STOPBITS_ONE
-        )
+    # Create a configuration dictionary
+    config = {
+        'port': '/dev/ttyUSB0',
+        'baudrate': 115200,
+        'bytesize': serial.EIGHTBITS,
+        'parity': serial.PARITY_NONE,
+        'stopbits': serial.STOPBITS_ONE
+    }
     
-    with serial.Serial(config) as ser:
+    with serial.Serial(**config) as ser:
         while True:
             telegram = bytearray()
             
