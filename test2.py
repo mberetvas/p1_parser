@@ -103,16 +103,16 @@ def main():
                 # replace ")" and "\r" with empty space
                 line = line.replace(")"," ").replace("\r", " ")
                 
-                print("line.strip(')\\r')")
-                print(line)
-                print("\n")
+                # print("line.strip(')\\r')")
+                # print(line)
+                # print("\n")
                 
                 x = line.split("(")
                 x = [item.replace(")","") for item in x]
                 
-                print("\n","line.split")
-                print(x)
-                print("\n")
+                # print("\n","line.split")
+                # print(x)
+                # print("\n")
                 # print("first print ",x)
 
                 try:
