@@ -48,9 +48,10 @@ def main():
             for line in lines:
 
                 if line.startswith("!"):
+                    print('Start Telegram:\n',"*"*15)
                     for k,v in data.items():
                         print(k," =" ,v)
-                    print("\n","end of data","\n\n\n")
+                    print("*"*15,"\n","end of data","\n\n")
                     data = {}
 
                 line = line.strip(")\r")
