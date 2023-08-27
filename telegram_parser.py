@@ -39,6 +39,7 @@ def main():
             if p1_line.decode('ascii').startswith('!'):
                 data = parse_telegram(telegram)
                 print(data)
+                print(telegram)
                 # telegram complete (end of telegram is the crc code exampl: "!hex code")
                 if checkcrc(telegram):
                     data = parse_telegram(telegram)
