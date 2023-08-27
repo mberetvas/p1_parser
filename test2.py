@@ -48,10 +48,10 @@ def main():
             for line in lines:
 
                 if line.startswith("!"):
-                    print("*"*45,"\n",'Start Telegram:\n')
+                    print("*"*65,"\n",'Start Telegram:\n',"*"*65,"\n")
                     for k,v in data.items():
                         print(k," =" ,v)
-                    print("\n","end of data","*"*45,"\n\n")
+                    print("\n","*"*65,"end of data","\n","*"*65,"\n")
                     data = {}
 
                 line = line.strip(")\r")
