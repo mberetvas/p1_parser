@@ -16,6 +16,9 @@ def crc16(data):
 
 def checkcrc(telegram):
     """Checks the CRC code of the given telegram."""
+    if len(telegram) < 2:
+        return False
+
     expected_crc = binascii.unhexlify(telegram[-2:])
     calculated_crc = crc16(telegram[:-2])
 
