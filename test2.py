@@ -1,6 +1,7 @@
 import serial
 import re
 import pandas as pd
+import crcmod.predefined
 
 
 # Dict with obiscode description (24)
@@ -31,6 +32,32 @@ obiscodes = {
     "0-1:24.2.3":"gas_verbruik_m³" # Last value of 'not temperature corrected' gas volume in m³,including decimal values and capture time
 }
 
+def checkcrc(p1telegram):
+    # Initialize p1contents
+    p1contents = True
+    
+    # check CRC16 checksum of telegram and return False if not matching
+    # split telegram in contents and CRC16 checksum (format:contents!crc)
+    for match in re.compile(b'\r\n(?=!)').finditer(p1telegram):
+        p1contents = p1telegram[:match.end() + 1]
+        # CRC is in hex, so we need to make sure the format is correct
+        givencrc = hex(
+            int(p1telegram[match.end() + 1:].decode('ascii').strip(), 16))
+    
+    # Make sure p1contents is not None before using it
+    if p1contents is not None:
+        # calculate checksum of the contents
+        calccrc = hex(crcmod.predefined.mkPredefinedCrcFun('crc16')(p1contents))
+        # check if given and calculated match
+        if debug:
+            print(f"Given checksum: {givencrc}, Calculated checksum: {calccrc}")
+        if givencrc != calccrc:
+            if debug:
+                print("Checksum incorrect, skipping...")
+            return False
+    return True
+
+
 def main():
     # Open the serial port
     with serial.Serial('/dev/ttyUSB0', 115200) as ser:
@@ -59,6 +86,7 @@ def main():
                     
                     # empty dict data
                     data = {}
+                    ser.flush()
 
                 # line = line.strip(")\r")
                 # replace ")" and "\r" with empty space
@@ -98,6 +126,7 @@ def main():
                     if debug == True:
                         print("did not find corresponding obiscode:", x[0],"\n")
                     continue
+            ser.flush()
 
 if __name__ == '__main__':
     debug = False
