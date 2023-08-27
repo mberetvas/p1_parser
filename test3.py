@@ -63,12 +63,12 @@ def main():
             if "/" in p1_line.decode('ascii'):
                 telegram = bytearray()
             
-            if p1_line.decode('ascii').startswith('!'):
-                if check_crc(telegram):
-                    data = parse_telegram(telegram)
-                    print(data)
-                else:
-                    print("CRC error")
+
+            if check_crc(telegram):
+                data = parse_telegram(telegram)
+                print(data)
+            else:
+                print("CRC error")
 
 if __name__ == "__main__":
     main()
