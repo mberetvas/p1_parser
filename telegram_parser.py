@@ -31,8 +31,10 @@ def main():
             if "/" in decoded_p1:
                 telegram = bytearray()
             telegram.extend(p1_line)
-            print("\n")
-            print(telegram)
+            
+            if "!" in decoded_p1:
+                print("\n")
+                print(telegram)
 
 if __name__ == "__main__":
     main()
