@@ -5,6 +5,7 @@ CRC16_POLY = 0xEDB88320
 
 def crc16(data):
     """Calculates the CRC-16 of the given data."""
+    print(data)
     crc = 0xFFFF
     for byte in data:
         crc ^= byte
