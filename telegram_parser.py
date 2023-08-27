@@ -9,7 +9,7 @@ def checkcrc(telegram):
 
 def parse_telegram(telegram):
     """Parses the given telegram and returns the data."""
-    data = telegram[:-2]
+    data = telegram
 
     return data
 
