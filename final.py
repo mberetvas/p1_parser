@@ -1,6 +1,8 @@
+import binascii
 import serial
 import crcmod
 import crcmod.predefined
+import binascii
 
 
 def read_telegram(port, baudrate):
@@ -32,7 +34,7 @@ def crc16(telegram, crc_code):
     # Calculate the CRC16 IBM checksum using the crc16_ibm function
     checksum = crc16_ibm(telegram)
     checksum2 = crc16_ibm2(telegram)
-    
+
     # Convert the checksum to a hexadecimal string with four digits
     checksum_hex = f"{checksum:04x}"
     checksum_hex2 = f"{checksum2:04x}"
@@ -41,9 +43,53 @@ def crc16(telegram, crc_code):
         print("The telegram is valid")
     else:
         print("The telegram is invalid")
-        print("checksum : ",checksum_hex)
-        print("checksum2 : ",checksum_hex2)
+        print("checksum : ", checksum_hex)
+        print("checksum2 : ", checksum_hex2)
         print(crc_code)
+
+
+# Import binascii module for crc16 calculation
+# Define a function to decode a P1 frame
+
+def decode_p1(frame):
+    # Split the frame by line terminations
+    lines = frame.split("\r\n")
+    # Check if the first line starts with a slash and has a manufacturer FLAG id and a meter type
+    if lines[0].startswith("/") and len(lines[0]) >= 5:
+        flag_id = lines[0][1:4]
+        meter_type = lines[0][5:]
+        print(f"Manufacturer FLAG id: {flag_id}")
+        print(f"Meter type: {meter_type}")
+    else:
+        print("Invalid first line")
+        return
+    # Check if the second line is empty
+    if lines[1] == "":
+        print("Empty second line")
+    else:
+        print("Invalid second line")
+        return
+    # Loop through the subsequent lines until the last line
+    for line in lines[2:-1]:
+        # Decode the COSEM objects using your own logic
+        # For example, you can split the line by brackets and parse the values
+        cosem_object = line.split("(")
+        print(f"COSEM object: {cosem_object}")
+    # Check if the last line starts with an exclamation mark and has a crc16 value
+    if lines[-1].startswith("!") and len(lines[-1]) == 5:
+        crc16 = lines[-1][1:]
+        print(f"CRC16: {crc16}")
+        # Calculate the crc16 of the whole frame including the "!" using IBM polynomial and initial value
+        crc16_calculated = hex(binascii.crc_hqx(frame.encode(), 0))[2:].upper()
+        print(f"CRC16 calculated: {crc16_calculated}")
+        # Compare the crc16 values and check if they match
+        if crc16 == crc16_calculated:
+            print("CRC16 match")
+        else:
+            print("CRC16 mismatch")
+    else:
+        print("Invalid last line")
+        return
 
 
 def main():
@@ -55,8 +101,8 @@ def main():
         p1_telegram, p1_crc16 = read_telegram(port, baudrate)
         # print data
         print(p1_telegram.decode("ascii"))
-
         crc16(p1_telegram, p1_crc16)
+        decode_p1(p1_telegram)
 
 
 if __name__ == "__main__":
