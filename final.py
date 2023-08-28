@@ -17,8 +17,8 @@ def read_telegram(port, baudrate):
         if byte == b"/" and len(telegram) > 1:
             telegram = bytearray(b"/")
         # If the telegram ends with b"!" and has four bytes after it, return the telegram with those bytes
-        if byte == b"!" and ser.in_waiting == 4:
-            crc_code = ser.read(4)
+        if byte == b"!" and ser.in_waiting == 2:
+            crc_code = ser.read(2)
             return telegram + crc_code
 
 
