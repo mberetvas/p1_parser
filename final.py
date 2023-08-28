@@ -23,8 +23,8 @@ def read_telegram(port, baudrate):
 
 
 def crc16(telegram, crc_code):
-    # Define the CRC16 IBM function with polynomial 0x8005 and initial value 0
-    crc16_ibm = crcmod.mkCrcFun(0x8005, initCrc=0, xorOut=0)
+    # Define the CRC16 IBM function with polynomial 0x18005 and initial value 0;
+    crc16_ibm = crcmod.mkCrcFun(0x18005, initCrc=0, xorOut=0)
     # Convert the bytearray object to a bytes object
     telegram = bytes(telegram)
     # Calculate the CRC16 IBM checksum using the crc16_ibm function
