@@ -42,13 +42,14 @@ def main():
     # config for serial comm.
     port = "/dev/ttyUSB0"
     baudrate = 115200
-    # read telegram
-    p1_telegram, p1_crc16 = read_telegram(port, baudrate)
-    # print data
-    print(p1_telegram)
-    print(p1_crc16, "\n")
+    while True:
+        # read telegram
+        p1_telegram, p1_crc16 = read_telegram(port, baudrate)
+        # print data
+        print(p1_telegram)
+        print(p1_crc16, "\n")
 
-    crc16(p1_telegram, p1_crc16)
+        crc16(p1_telegram, p1_crc16)
 
 
 if __name__ == "__main__":
