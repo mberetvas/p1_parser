@@ -102,7 +102,7 @@ def main():
         # print data
         print(p1_telegram.decode("ascii"))
         crc16(p1_telegram, p1_crc16)
-        decode_p1(p1_telegram)
+        decode_p1(p1_telegram.decode('ascii'))
 
 
 if __name__ == "__main__":
