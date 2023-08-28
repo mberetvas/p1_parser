@@ -47,6 +47,10 @@ def main():
     # print data
     print(p1_telegram)
     print(p1_crc16, "\n")
+    try:
+        crc16(p1_telegram, p1_crc16)
+    except:
+        print("error crc16")
 
 
 if __name__ == "__main__":
