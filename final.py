@@ -36,6 +36,8 @@ def crc16(telegram, crc_code):
         print("The telegram is valid")
     else:
         print("The telegram is invalid")
+        print(checksum_hex)
+        print(crc_code)
 
 
 def main():
@@ -47,7 +49,6 @@ def main():
         p1_telegram, p1_crc16 = read_telegram(port, baudrate)
         # print data
         print(p1_telegram)
-        print(p1_crc16, "\n")
 
         crc16(p1_telegram, p1_crc16)
 
