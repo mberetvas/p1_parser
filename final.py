@@ -54,7 +54,7 @@ def main():
         # read telegram
         p1_telegram, p1_crc16 = read_telegram(port, baudrate)
         # print data
-        print(p1_telegram)
+        print(p1_telegram.decode("ascii"))
 
         crc16(p1_telegram, p1_crc16)
 
