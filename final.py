@@ -18,7 +18,7 @@ def read_telegram(port, baudrate):
             telegram = bytearray(b"/")
         # If the telegram ends with b"!", return the telegram with those bytes
         if byte == b"!":
-            crc_code = ser.read(3)
+            crc_code = ser.read(4)
             return telegram, crc_code.decode("ascii")
 
 
