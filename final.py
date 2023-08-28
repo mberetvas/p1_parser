@@ -11,8 +11,8 @@ def read_telegram(port, baudrate):
     while True:
         # Read one byte from the serial port
         byte = ser.read()
-        # Append the byte to the telegram
-        telegram.append(byte)
+        # Extend the byte array with the byte
+        telegram.extend(byte)
         # If the telegram starts with b"/", reset the telegram
         if byte == b"/" and len(telegram) > 1:
             telegram = bytearray(b"/")
