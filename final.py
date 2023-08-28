@@ -18,21 +18,19 @@ def read_telegram(port, baudrate):
             telegram = bytearray(b"/")
         # If the telegram ends with b"!", return the telegram with those bytes
         if byte == b"!":
-            crc_code = ser.read(2)
-            return telegram + crc_code
+            crc_code = ser.read(3)
+            return telegram, crc_code.decode("ascii")
 
 
-def crc16():
+def crc16(telegram, crc_code):
     # Define the CRC16 IBM function with polynomial 0x8005 and initial value 0
     crc16_ibm = crcmod.mkCrcFun(0x8005, initCrc=0, xorOut=0)
-    # Assume that you have read the telegram as a bytes object
-    telegram = b"/...!"
+    # Convert the bytearray object to a bytes object
+    telegram = bytes(telegram)
     # Calculate the CRC16 IBM checksum using the crc16_ibm function
     checksum = crc16_ibm(telegram)
     # Convert the checksum to a hexadecimal string with four digits
     checksum_hex = f"{checksum:04x}"
-    # Extract the CRC code from the last line of the telegram
-    crc_code = telegram[-4:-1].decode("ascii")
     # Compare the checksum with the CRC code in the telegram
     if checksum_hex == crc_code:
         print("The telegram is valid")
