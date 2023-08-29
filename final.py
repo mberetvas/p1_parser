@@ -28,16 +28,19 @@ def read_telegram(port, baudrate):
 def crc16(telegram, crc_code):
     # Define the CRC16 IBM function with polynomial 0x18005 and initial value 0;
     crc16_ibm2 = crcmod.mkCrcFun(0x18005, initCrc=0, xorOut=0)
-    crc16_ibm = crcmod.predefined.mkPredefinedCrcFun('crc16')
+    crc16_ibm = crcmod.predefined.mkPredefinedCrcFun('crc-16-maxim')
+    crc = crcmod.mkCrcFun(0xA001, initCrc=0, xorOut=0)
     # Convert the bytearray object to a bytes object
     telegram = bytes(telegram)
     # Calculate the CRC16 IBM checksum using the crc16_ibm function
     checksum = crc16_ibm(telegram)
     checksum2 = crc16_ibm2(telegram)
+    checksum3 = crc(telegram)
 
     # Convert the checksum to a hexadecimal string with four digits
     checksum_hex = f"{checksum:04x}"
     checksum_hex2 = f"{checksum2:04x}"
+    checksum3_hex = f"{checksum3:04x}"
     # Compare the checksum with the CRC code in the telegram
     if checksum_hex == crc_code:
         print("The telegram is valid")
@@ -45,6 +48,7 @@ def crc16(telegram, crc_code):
         print("The telegram is invalid")
         print("checksum : ", checksum_hex)
         print("checksum2 : ", checksum_hex2)
+        print("checksum3 : ", checksum3_hex)
         print(crc_code)
 
 
@@ -102,7 +106,7 @@ def main():
         # print data
         print(p1_telegram.decode("ascii"))
         crc16(p1_telegram, p1_crc16)
-        decode_p1(p1_telegram.decode('ascii'))
+        decode_p1(p1_telegram)
 
 
 if __name__ == "__main__":
