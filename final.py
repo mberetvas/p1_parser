@@ -118,6 +118,7 @@ def main():
         print(p1_telegram.decode("ascii"))
         print(f"\n{p1_crc16}")
         print(crc16(p1_telegram.decode("ascii")))
+        print(crc16(p1_telegram))
 
 
 if __name__ == "__main__":
