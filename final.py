@@ -29,7 +29,7 @@ def crc16(telegram, crc_code):
     # Define the CRC16 IBM function with polynomial 0x18005 and initial value 0;
     crc16_ibm2 = crcmod.mkCrcFun(0x18005, initCrc=0, xorOut=0)
     crc16_ibm = crcmod.predefined.mkPredefinedCrcFun('crc-16-maxim')
-    crc = crcmod.mkCrcFun(0xA001, initCrc=0, xorOut=0)
+    crc = crcmod.mkCrcFun(0x1A001, initCrc=0, xorOut=0)
     # Convert the bytearray object to a bytes object
     telegram = bytes(telegram)
     # Calculate the CRC16 IBM checksum using the crc16_ibm function
