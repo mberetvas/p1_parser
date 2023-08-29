@@ -112,7 +112,7 @@ def main():
     port = "/dev/ttyUSB0"
     baudrate = 115200
     while True:
-        # read telegram
+        # read telegram.
         p1_telegram, p1_crc16 = read_telegram(port, baudrate)
         # print data
         print(p1_telegram.decode("ascii"))
