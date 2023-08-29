@@ -76,43 +76,43 @@ def read_telegram(port, baudrate):
 #             TelegramParser.crc16_tab[(tmp & 0x00FF)], 0)
 #     return crcValue
 
-# def crc16(telegram):
-#     """
-#     Calculate the CRC16 value for the given telegram
-#     :param str telegram:
-#     """
-#     crcValue = 0x0000
-#     crc16_tab = []
-#     if len(crc16_tab) == 0:
-#         for i in range(0, 256):
-#             crc = i
-#             for j in range(0, 8):
-#                 if crc & 0x0001:
-#                     crc = (crc >> 1) ^ 0xA001
-#                 else:
-#                     crc = crc >> 1
-#             crc16_tab.append(hex(crc))
-#     for c in telegram:
-#         d = ord(c)
-#         tmp = crcValue ^ d
-#         rotated = crcValue >> 8
-#         crcValue = rotated ^ int(crc16_tab[(tmp & 0x00FF)], 0)
-#     return crcValue
+def crc16(telegram):
+    """
+    Calculate the CRC16 value for the given telegram
+    :param str telegram:
+    """
+    crcValue = 0x0000
+    crc16_tab = []
+    if len(crc16_tab) == 0:
+        for i in range(0, 256):
+            crc = i
+            for j in range(0, 8):
+                if crc & 0x0001:
+                    crc = (crc >> 1) ^ 0xA001
+                else:
+                    crc = crc >> 1
+            crc16_tab.append(hex(crc))
+    for c in telegram:
+        d = ord(c)
+        tmp = crcValue ^ d
+        rotated = crcValue >> 8
+        crcValue = rotated ^ int(crc16_tab[(tmp & 0x00FF)], 0)
+    return crcValue
 
-def crc16(data: bytes, poly=0x8408):
-    data = bytearray(data)
-    crc = 0xFFFF
-    for b in data:
-        cur_byte = 0xFF & b
-        for _ in range(0, 8):
-            if (crc & 0x0001) ^ (cur_byte & 0x0001):
-                crc = (crc >> 1) ^ poly
-            else:
-                crc >>= 1
-            cur_byte >>= 1
-    crc = (~crc & 0xFFFF)
-    crc = (crc << 8) | ((crc >> 8) & 0xFF)
-    return crc & 0xFFFF
+# def crc16(data: bytes, poly=0x8408):
+#     data = bytearray(data)
+#     crc = 0xFFFF
+#     for b in data:
+#         cur_byte = 0xFF & b
+#         for _ in range(0, 8):
+#             if (crc & 0x0001) ^ (cur_byte & 0x0001):
+#                 crc = (crc >> 1) ^ poly
+#             else:
+#                 crc >>= 1
+#             cur_byte >>= 1
+#     crc = (~crc & 0xFFFF)
+#     crc = (crc << 8) | ((crc >> 8) & 0xFF)
+#     return crc & 0xFFFF
 
 
 def main():
