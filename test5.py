@@ -13,15 +13,30 @@ SERIAL_CONFIG = {
 }
 
 
+# def crc16(data):
+#     # Create a crc function with x16+x15+x2+1 and least significant bit firts
+#     crc16 = crcmod.mkCrcFun(0xA001, rev=True, initCrc=0xFFFF, xorOut=0x0000)
+#     # compute the crc16 value of the data message
+#     calc_crc16 = crc16(data.encode())
+#     # convert the crc16 value to a 4-digit hexadecimal string with MSB first
+#     crc16_hex = format(calc_crc16, "04X")
+#     print("calculated crc16:", crc16_hex)
+#     return crc16_hex
+
 def crc16(data):
-    # Create a crc function with x16+x15+x2+1 and least significant bit firts
-    crc16 = crcmod.mkCrcFun(0xA001, rev=True, initCrc=0xFFFF, xorOut=0x0000)
-    # compute the crc16 value of the data message
-    calc_crc16 = crc16(data.encode())
-    # convert the crc16 value to a 4-digit hexadecimal string with MSB first
-    crc16_hex = format(calc_crc16, "04X")
-    print("calculated crc16:", crc16_hex)
-    return crc16_hex
+    crc = 0xFFFF
+    polynomial = 0xA001
+    for b in data:
+        cur_byte = 0xFF & b
+        for _ in range(0, 8):
+            if (crc & 0x0001) ^ (cur_byte & 0x0001):
+                crc = (crc >> 1) ^ polynomial
+            else:
+                crc >>= 1
+            cur_byte >>= 1
+    crc = (~crc & 0xFFFF)
+    crc = (crc << 8) | ((crc >> 8) & 0xFF)
+    return crc & 0xFFFF
 
 
 # def read_telegram():
@@ -58,7 +73,7 @@ def main():
     while True:
         data = read_telegram()
         print(data)
-        crc16(data)
+        print(crc16(data))
         #time.sleep(5)
 
 
