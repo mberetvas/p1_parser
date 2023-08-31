@@ -31,10 +31,10 @@ def read_telegram():
     lines = []
     while True:
         line = ser.readline()
-        if line.startswith("/"):
+        if line.decode("ascii").startswith("/"):
             lines = []
         lines.append(line)
-        if line.startswith("!"):
+        if line.decode("ascii").startswith("!"):
             # process the complete set of lines
             data = "\n".join(lines)
             break
