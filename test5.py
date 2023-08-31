@@ -77,7 +77,8 @@ def read_telegram():
 def main():
     while True:
         data,crc1 = read_telegram()
-        print(data)
+        print(data.decode('utf-8'))
+        print(crc1)
         print(crc16(crc1))
         # time.sleep(5)
 
