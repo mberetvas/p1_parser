@@ -1,6 +1,7 @@
 import serial
 import crcmod
 import time
+import re
 
 
 # serial port config dictionary
@@ -12,16 +13,6 @@ SERIAL_CONFIG = {
     'stopbits': serial.STOPBITS_ONE
 }
 
-
-# def crc16(data):
-#     # Create a crc function with x16+x15+x2+1 and least significant bit firts
-#     crc16 = crcmod.mkCrcFun(0xA001, rev=True, initCrc=0xFFFF, xorOut=0x0000)
-#     # compute the crc16 value of the data message
-#     calc_crc16 = crc16(data.encode())
-#     # convert the crc16 value to a 4-digit hexadecimal string with MSB first
-#     crc16_hex = format(calc_crc16, "04X")
-#     print("calculated crc16:", crc16_hex)
-#     return crc16_hex
 
 def crc16(data):
     crc = 0xFFFF
@@ -38,21 +29,6 @@ def crc16(data):
     crc = (crc << 8) | ((crc >> 8) & 0xFF)
     return crc & 0xFFFF
 
-
-# def read_telegram():
-#     # define the serial port
-#     ser = serial.Serial(**SERIAL_CONFIG)
-#     lines = []
-#     while True:
-#         line = ser.readline()
-#         if line.decode("ascii").startswith("/"):
-#             lines = []
-#         lines.append(line.decode("ascii"))
-#         if line.decode("ascii").startswith("!"):
-#             # process the complete set of lines
-#             data = "\n".join(lines)
-#             break
-#     return data
 
 def read_telegram():
     # Open a serial connection with the given port and baudrate
@@ -74,13 +50,25 @@ def read_telegram():
             return telegram, crc_code
 
 
+def parse_telegram(message):
+    # Extract the information from each line of the message
+    parsed_telegram = {}
+    for line in message.split("\n"):
+        if line.startswith("/"):
+            parsed_telegram["header"] = line[1:]
+        else:
+            match = re.match(r"(\d+-\d+:\d+\.\d+\.\d+)\((.*)\)", line)
+            if match:
+                key = match.group(1)
+                value = match.group(2)
+                parsed_telegram[key] = value
+    return parsed_telegram
+
+
 def main():
     while True:
-        data,crc1 = read_telegram()
-        print(data.decode('utf-8'))
-        print(crc1.decode('utf-8'))
-        print(crc16(crc1))
-        # time.sleep(5)
+        data, crc1 = read_telegram()
+        print(parse_telegram(data.decode('utf-8')))
 
 
 if __name__ == "__main__":
