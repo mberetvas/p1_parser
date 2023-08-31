@@ -45,7 +45,7 @@ def main():
         data = read_telegram()
         print(data)
         crc16(data)
-        time.sleep(1)
+        time.sleep(5)
 
 
 if __name__ == "__main__":
