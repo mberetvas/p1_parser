@@ -40,9 +40,10 @@ def read_telegram():
 
 
 def main():
-    data = read_telegram()
-    print(data)
-    crc16(data)
+    while True:
+        data = read_telegram()
+        print(data)
+        crc16(data)
 
 
 if __name__ == "__main__":
