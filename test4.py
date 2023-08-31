@@ -40,6 +40,7 @@ def read_telegram(port, baudrate):
             # Calculate the CRC-16 of the telegram using IBM polynomial
             calculated_crc16 = calculate_crc16(telegram)
             
+            print(telegram.decode("ascii"))
             print(int(crc_code, 16)," = ",calculated_crc16)
             # Compare the calculated CRC with the received CRC
             if calculated_crc16 == int(crc_code, 16):
