@@ -63,6 +63,9 @@ def read_telegram(port, baudrate):
             # Calculate the CRC-16 IBM of the telegram
             calculated_crc16 = calculate_crc16_IBM(telegram)
             print(calculated_crc16," = ",int(crc_code, 16)," ",crc_code)
+            print("\n")
+            print(telegram)
+            print("\n")
             
             # Compare the calculated CRC with the received CRC
             if calculated_crc16 == int(crc_code, 16):
