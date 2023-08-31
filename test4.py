@@ -1,10 +1,25 @@
 import serial
-import crcmod.predefined
+
+# Define the CRC-16 IBM polynomial
+IBM_POLYNOMIAL = 0x8005
+IBM_POLY_reversed = 0xA001
+IBM_POLY_RECIPROC = 0x4003
+
+def calculate_crc16(telegram):
+    # Initialize the CRC-16 value with 0
+    crc = 0
+    for byte in telegram:
+        crc ^= byte << 8
+        for _ in range(8):
+            if crc & 0x8000:
+                crc = (crc << 1) ^ IBM_POLYNOMIAL
+            else:
+                crc <<= 1
+            crc &= 0xFFFF  # Ensure the result stays 16 bits
+    
+    return crc
 
 def read_telegram(port, baudrate):
-    # Create a CRC16 object with the same parameters as in the telegram
-    crc_func = crcmod.predefined.mkCrcFun('crc-16')
-    
     # Open a serial connection with the given port and baudrate
     ser = serial.Serial(port, baudrate)
     # Initialize an empty byte array to store the telegram
@@ -18,19 +33,14 @@ def read_telegram(port, baudrate):
         # If the telegram starts with b"/", reset the telegram
         if byte == b"/" and len(telegram) > 1:
             telegram = bytearray(b"/")
-        # If the telegram ends with b"!", calculate the CRC16
+        # If the telegram ends with b"!", read the CRC code
         if byte == b"!":
-            # Remove the "!" from the telegram
-            telegram = telegram[:-1]
-            # Calculate the CRC16 of the telegram
-            calculated_crc16 = crc_func(telegram)
-            
-            # Read the CRC code from the telegram
             crc_code = ser.read(4).decode("ascii")
             
-            print(calculated_crc16)
-            print(crc_code)
+            # Calculate the CRC-16 of the telegram using IBM polynomial
+            calculated_crc16 = calculate_crc16(telegram)
             
+            print(int(crc_code, 16)," = ",calculated_crc16)
             # Compare the calculated CRC with the received CRC
             if calculated_crc16 == int(crc_code, 16):
                 print("CRC check passed.")
