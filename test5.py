@@ -71,14 +71,14 @@ def read_telegram():
         # If the telegram ends with b"!", return the telegram with those bytes
         if byte == b"!":
             crc_code = ser.read(4)
-            return telegram, crc_code.decode("utf-8")
+            return telegram, crc_code
 
 
 def main():
     while True:
         data,crc1 = read_telegram()
         print(data.decode('utf-8'))
-        print(crc1)
+        print(crc1.decode('utf-8'))
         print(crc16(crc1))
         # time.sleep(5)
 
