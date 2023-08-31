@@ -31,7 +31,6 @@ def read_telegram():
     lines = []
     while True:
         line = ser.readline()
-        line.decode('ascii').strip()
         if line.startswith("/"):
             lines = []
         lines.append(line)
