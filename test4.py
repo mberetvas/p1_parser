@@ -3,7 +3,6 @@ import serial
 # Define the CRC-16 IBM polynomial
 IBM_POLYNOMIAL = 0x8005
 IBM_POLY_reversed = 0xA001
-IBM_POLY_RECIPROC = 0x4003
 
 def calculate_crc16(telegram):
     # Initialize the CRC-16 value with 0
