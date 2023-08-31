@@ -55,26 +55,31 @@ def crc16(data):
 #     return data
 
 def read_telegram():
-    # define the serial port
+    # Open a serial connection with the given port and baudrate
     ser = serial.Serial(**SERIAL_CONFIG)
-    lines = []
+    # Initialize an empty byte array to store the telegram
+    telegram = bytearray()
+    # Loop until a complete telegram is received
     while True:
-        line = ser.readline()
-        if line.startswith(b"/"):
-            lines = []
-        lines.append(line)
-        if line.startswith(b"!"):
-            # process the complete set of lines
-            data = b"".join(lines)
-            break
-    return data
+        # Read one byte from the serial port
+        byte = ser.read()
+        # Extend the byte array with the byte
+        telegram.extend(byte)
+        # If the telegram starts with b"/", reset the telegram
+        if byte == b"/" and len(telegram) > 1:
+            telegram = bytearray(b"/")
+        # If the telegram ends with b"!", return the telegram with those bytes
+        if byte == b"!":
+            crc_code = ser.read(4)
+            return telegram, crc_code.decode("utf-8")
+
 
 def main():
     while True:
         data = read_telegram()
         print(data[:-4])
         print(crc16(data[:-4]))
-        #time.sleep(5)
+        # time.sleep(5)
 
 
 if __name__ == "__main__":
