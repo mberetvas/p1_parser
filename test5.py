@@ -33,7 +33,7 @@ def read_telegram():
         line = ser.readline()
         if line.decode("ascii").startswith("/"):
             lines = []
-        lines.append(line)
+        lines.append(line.decode("ascii"))
         if line.decode("ascii").startswith("!"):
             # process the complete set of lines
             data = "\n".join(lines)
