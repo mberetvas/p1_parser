@@ -4,11 +4,11 @@ import crcmod
 
 # serial port config dictionary
 SERIAL_CONFIG = {
-    "port": "/dev/ttyUSB0",
-    "baudrate": "115200",
-    "parity": "serial.PARITY_NONE",
-    "stopbits": "serial.STOPBITS_ONE",
-    "bytesize": "serial.EIGHTBITS"
+    'port': '/dev/ttyUSB0',
+    'baudrate': 115200,
+    'bytesize': serial.EIGHTBITS,
+    'parity': serial.PARITY_NONE,
+    'stopbits': serial.STOPBITS_ONE
 }
 
 
