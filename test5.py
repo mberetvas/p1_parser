@@ -76,9 +76,9 @@ def read_telegram():
 
 def main():
     while True:
-        data = read_telegram()
-        print(data[:-4])
-        print(crc16(data[:-4]))
+        data,crc1 = read_telegram()
+        print(data)
+        print(crc16(crc1))
         # time.sleep(5)
 
 
