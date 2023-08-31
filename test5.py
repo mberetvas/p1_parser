@@ -30,7 +30,7 @@ def read_telegram():
     ser = serial.Serial(**SERIAL_CONFIG)
     lines = []
     while True:
-        line = ser.readline.decode().strip()
+        line = ser.readline.decode("ascii").strip()
         if line.startswith("/"):
             lines = []
         lines.append(line)
