@@ -15,7 +15,7 @@ SERIAL_CONFIG = {
 
 def crc16(data):
     # Create a crc function with x16+x15+x2+1 and least significant bit firts
-    crc16 = crcmod.mkCrcFun(0x18005, rev=True, initCrc=0xFFFF, xorOut=0x0000)
+    crc16 = crcmod.mkCrcFun(0xA001, rev=True, initCrc=0xFFFF, xorOut=0x0000)
     # compute the crc16 value of the data message
     calc_crc16 = crc16(data.encode())
     # convert the crc16 value to a 4-digit hexadecimal string with MSB first
