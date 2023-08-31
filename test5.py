@@ -1,5 +1,6 @@
 import serial
 import crcmod
+import time
 
 
 # serial port config dictionary
@@ -44,6 +45,7 @@ def main():
         data = read_telegram()
         print(data)
         crc16(data)
+        time.sleep(1)
 
 
 if __name__ == "__main__":
