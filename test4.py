@@ -62,7 +62,7 @@ def read_telegram(port, baudrate):
             crc_code = ser.read(4).decode("ascii")
             # Calculate the CRC-16 IBM of the telegram
             calculated_crc16 = calculate_crc16_IBM(telegram)
-            print(calculated_crc16," = ",int(crc_code, 16)," ",crc_code)
+            print(calculated_crc16," = ",int(crc_code, 16)," ",ser.read(4))
             print("\n")
             print(telegram)
             print("\n")
