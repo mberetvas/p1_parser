@@ -11,6 +11,7 @@ SERIAL_CONFIG = {
     "bytesize": "serial.EIGHTBITS"
 }
 
+
 def crc16(data):
     # Create a crc function with x16+x15+x2+1 and least significant bit firts
     crc16 = crcmod.mkCrcFun(0x18005, rev=True, initCrc=0xFFFF, xorOut=0x0000)
@@ -22,6 +23,8 @@ def crc16(data):
     return crc16_hex
 
 # read data from the serial port
+
+
 def read_telegram():
     # define the serial port
     ser = serial.Serial(**SERIAL_CONFIG)
@@ -36,8 +39,12 @@ def read_telegram():
             data = "\n".join(lines)
     return data
 
+
 def main():
     data = read_telegram()
     print(data)
     crc16(data)
-    
+
+
+if __name__ == "__main__":
+    main()
