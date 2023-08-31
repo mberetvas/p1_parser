@@ -28,6 +28,9 @@ def read_telegram(port, baudrate):
             # Read the CRC code from the telegram
             crc_code = ser.read(4).decode("ascii")
             
+            print(calculated_crc16)
+            print(crc_code)
+            
             # Compare the calculated CRC with the received CRC
             if calculated_crc16 == int(crc_code, 16):
                 print("CRC check passed.")
