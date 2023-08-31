@@ -24,21 +24,35 @@ def crc16(data):
     return crc16_hex
 
 
+# def read_telegram():
+#     # define the serial port
+#     ser = serial.Serial(**SERIAL_CONFIG)
+#     lines = []
+#     while True:
+#         line = ser.readline()
+#         if line.decode("ascii").startswith("/"):
+#             lines = []
+#         lines.append(line.decode("ascii"))
+#         if line.decode("ascii").startswith("!"):
+#             # process the complete set of lines
+#             data = "\n".join(lines)
+#             break
+#     return data
+
 def read_telegram():
     # define the serial port
     ser = serial.Serial(**SERIAL_CONFIG)
     lines = []
     while True:
         line = ser.readline()
-        if line.decode("ascii").startswith("/"):
+        if line.startswith(b"/"):
             lines = []
-        lines.append(line.decode("ascii"))
-        if line.decode("ascii").startswith("!"):
+        lines.append(line)
+        if line.startswith(b"!"):
             # process the complete set of lines
-            data = "\n".join(lines)
+            data = b"".join(lines)
             break
     return data
-
 
 def main():
     while True:
