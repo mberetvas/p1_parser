@@ -22,8 +22,6 @@ def crc16(data):
     print("calculated crc16:", crc16_hex)
     return crc16_hex
 
-# read data from the serial port
-
 
 def read_telegram():
     # define the serial port
