@@ -37,6 +37,7 @@ def read_telegram():
         if line.startswith("!"):
             # process the complete set of lines
             data = "\n".join(lines)
+            break
     return data
 
 
