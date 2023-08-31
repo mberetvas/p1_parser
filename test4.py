@@ -1,22 +1,47 @@
 import serial
 
-# Define the CRC-16 IBM polynomial
-IBM_POLYNOMIAL = 0x8005
-IBM_POLY_reversed = 0xA001
+def crc_remainder(input_bitstring, polynomial_bitstring, initial_filler):
+    """Calculate the CRC remainder of a string of bits using a chosen polynomial.
+    initial_filler should be '1' or '0'.
+    """
+    polynomial_bitstring = polynomial_bitstring.lstrip('0')
+    len_input = len(input_bitstring)
+    initial_padding = (len(polynomial_bitstring) - 1) * initial_filler
+    input_padded_array = list(input_bitstring + initial_padding)
+    while '1' in input_padded_array[:len_input]:
+        cur_shift = input_padded_array.index('1')
+        for i in range(len(polynomial_bitstring)):
+            input_padded_array[cur_shift + i] \
+            = str(int(polynomial_bitstring[i] != input_padded_array[cur_shift + i]))
+    return ''.join(input_padded_array)[len_input:]
 
-def calculate_crc16(telegram):
-    # Initialize the CRC-16 value with 0
-    crc = 0
-    for byte in telegram:
-        crc ^= byte << 8
-        for _ in range(8):
-            if crc & 0x8000:
-                crc = (crc << 1) ^ IBM_POLY_reversed
-            else:
-                crc <<= 1
-            crc &= 0xFFFF  # Ensure the result stays 16 bits
+def crc_check(input_bitstring, polynomial_bitstring, check_value):
+    """Calculate the CRC check of a string of bits using a chosen polynomial."""
+    polynomial_bitstring = polynomial_bitstring.lstrip('0')
+    len_input = len(input_bitstring)
+    initial_padding = check_value
+    input_padded_array = list(input_bitstring + initial_padding)
+    while '1' in input_padded_array[:len_input]:
+        cur_shift = input_padded_array.index('1')
+        for i in range(len(polynomial_bitstring)):
+            input_padded_array[cur_shift + i] \
+            = str(int(polynomial_bitstring[i] != input_padded_array[cur_shift + i]))
+    return ('1' not in ''.join(input_padded_array)[len_input:])
+
+# Define the CRC-16 IBM polynomial
+IBM_POLYNOMIAL = "11000000000000101"
+
+def calculate_crc16_IBM(telegram):
+    # Convert the telegram to a bitstring
+    telegram_bitstring = ''.join(format(byte, '08b') for byte in telegram)
     
-    return crc
+    # Calculate the CRC-16 IBM value using the provided function
+    calculated_crc = crc_remainder(telegram_bitstring, IBM_POLYNOMIAL, '0')
+    
+    # Convert the calculated CRC to an integer
+    calculated_crc_int = int(calculated_crc, 2)
+    
+    return calculated_crc_int
 
 def read_telegram(port, baudrate):
     # Open a serial connection with the given port and baudrate
@@ -36,11 +61,9 @@ def read_telegram(port, baudrate):
         if byte == b"!":
             crc_code = ser.read(4).decode("ascii")
             
-            # Calculate the CRC-16 of the telegram using IBM polynomial
-            calculated_crc16 = calculate_crc16(telegram)
+            # Calculate the CRC-16 IBM of the telegram
+            calculated_crc16 = calculate_crc16_IBM(telegram)
             
-            print(telegram.decode("ascii"))
-            print(int(crc_code, 16)," = ",calculated_crc16)
             # Compare the calculated CRC with the received CRC
             if calculated_crc16 == int(crc_code, 16):
                 print("CRC check passed.")
