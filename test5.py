@@ -34,7 +34,7 @@ obiscodes = {
     "0-1:24.2.3":"gas_verbruik_m³" # Last value of 'not temperature corrected' gas volume in m³,including decimal values and capture time
 }
 
-# serial port config dictionary
+# Serial port configuration dictionary
 SERIAL_CONFIG = {
     'port': '/dev/ttyUSB0',
     'baudrate': 115200,
@@ -45,6 +45,12 @@ SERIAL_CONFIG = {
 
 
 def crc16(data):
+    """
+    Calculate the CRC16 checksum of the given data.
+
+    :param data: Bytes to calculate CRC16 on.
+    :return: Calculated CRC16 checksum as an integer.
+    """
     crc = 0xFFFF
     polynomial = 0xA001
     for b in data:
@@ -59,13 +65,25 @@ def crc16(data):
     crc = (crc << 8) | ((crc >> 8) & 0xFF)
     return crc & 0xFFFF
 
+
 def convert_to_utc(timestamp_str):
+    """
+    Convert a timestamp string to a UTC timestamp.
+
+    :param timestamp_str: Timestamp string in the format 'YYMMDDhhmmssX'.
+    :return: UTC timestamp as a float.
+    """
     timestamp = datetime.strptime(timestamp_str, '%Y%m%d%H%M%S%S')
     utc_timestamp = timestamp.replace(tzinfo=timezone.utc).timestamp()
     return utc_timestamp
 
 
 def read_telegram():
+    """
+    Read a telegram from a serial port and return it along with CRC code.
+
+    :return: Tuple containing the telegram as bytes and CRC code as bytes.
+    """
     # Open a serial connection with the given port and baudrate
     ser = serial.Serial(**SERIAL_CONFIG)
     # Initialize an empty byte array to store the telegram
@@ -86,7 +104,12 @@ def read_telegram():
 
 
 def parse_telegram(message):
-    # Extract the information from each line of the message
+    """
+    Parse a telegram message and extract information from it.
+
+    :param message: Telegram message as a string.
+    :return: Dictionary containing parsed information from the telegram.
+    """
     parsed_telegram = {}
     for line in message.split("\n"):
         if line.startswith("/"):
@@ -110,7 +133,11 @@ def parse_telegram(message):
                 continue
     return parsed_telegram
 
+
 def main():
+    """
+    Main function to read and parse telegrams continuously.
+    """
     telegram = {}
     while True:
         data, crc1 = read_telegram()
@@ -118,5 +145,7 @@ def main():
         print(telegram)
         print("\n")
 
+
 if __name__ == "__main__":
     main()
+
