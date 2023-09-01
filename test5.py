@@ -98,7 +98,12 @@ def parse_telegram(message):
                 value = line[idx:].replace("(", " (").split()
                 if obis_code in obiscodes:
                     if len(value) > 1:
-                        parsed_telegram[obiscodes[obis_code]] = value[1]
+                        if obis_code == "1-0:1.6.0":
+                            parsed_telegram["timestamp_piekvermogen"] = value[0]
+                            parsed_telegram["piekvermogen_huidige_maand"] = value[1]
+                        elif obis_code == "0-1:24.2.3":
+                            parsed_telegram["timestamp_gas"] = value[0]
+                            parsed_telegram["gas_verbruik_m³"] = value[1]
                     else:
                         parsed_telegram[obiscodes[obis_code]] = value
             except:
