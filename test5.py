@@ -31,7 +31,7 @@ obiscodes = {
     "1-0:1.7.0":"actief_verbruik_kw", # actief verbruik in kw
     "1-0:2.7.0":"actief_injectie_kw", # actieve injectie in kw
     "1-0:21.7.0":"instant_vermogen_L1+P_kw", # instantaneous active power L1 +P
-    "1-0:22.7.0":"instant_vermogen_L1-P_kw", # instantaneous active power L1 -P
+    "1-0:22.7.0":"instant_vermogen_l1_injectie_kw", # instantaneous active power L1 -P
     "1-0:32.7.0":"spanning_V", # instantaneous voltage
     "1-0:31.7.0":"stroom_A", # instantaneous current
     #"0-0:96.3.10":"stand_zekering", # Breaker state 0=Disconnected 1=connected 3=ready for connection
@@ -68,8 +68,8 @@ def insert_telegram_data(parsed_telegram):
                 timestamp_piekvermogen,
                 actief_verbruik_kw,
                 actief_injectie_kw,
-                instant_vermogen_L1_P_kw,
-                instant_vermogen_L1_P_kw,
+                instant_vermogen_L1_kw,
+                instant_vermogen_L1_injectie_kw,
                 spanning_V,
                 stroom_A,
                 gas_verbruik_m³,
