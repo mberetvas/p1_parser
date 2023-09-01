@@ -121,7 +121,10 @@ def count_nested_dicts(d):
 
 def main():
     telegrams = {}
+    n = 0
     while True:
+        n += 1
+        print(n)
         data, crc1 = read_telegram()
         message = parse_telegram(data.decode('utf-8'))
         append_dicts(telegrams,message)
