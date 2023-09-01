@@ -104,20 +104,33 @@ def parse_telegram(message):
     return parsed_telegram
 
 
+# Append dict2 to dict1 with incremented names
+def append_dicts(dict1, dict2):
+    i = 1
+    for key, value in dict2.items():
+        new_key = key + str(i)
+        dict1[new_key] = value
+        i += 1
+
+def count_nested_dicts(d):
+    count = 0
+    for value in d.values():
+        if isinstance(value, dict):
+            count += 1
+    return count
+
 def main():
-    main_df = pandas.DataFrame()
+    telegrams = {}
     while True:
         data, crc1 = read_telegram()
         message = parse_telegram(data.decode('utf-8'))
-        df_message = pandas.DataFrame.from_dict(message)
-        df3 = pandas.concat([main_df,df_message],ignore_index=True)
-        print(len(df3))
-        if len(df3) == 10:
-            print(df3)
-            print('\n')
+        append_dicts(telegrams,message)
+        if count_nested_dicts(telegrams) > 10:
+            df = pandas.DataFrame.from_dict(telegrams)
+            print(df)
         else:
             continue
-        
+
 
 
 if __name__ == "__main__":
