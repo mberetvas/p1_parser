@@ -55,6 +55,7 @@ def parse_telegram(message):
     # Extract the information from each line of the message
     parsed_telegram = {}
     for line in message.split("\n"):
+        print(line)
         if line.startswith("/"):
             parsed_telegram["header"] = line[1:]
         else:
@@ -71,8 +72,7 @@ def parse_telegram(message):
 def main():
     while True:
         data, crc1 = read_telegram()
-        for k,v in parse_telegram(data.decode('utf-8')).items():
-            print(k,' = ',v)
+        parse_telegram(data)
         print('\n')
 
 if __name__ == "__main__":
