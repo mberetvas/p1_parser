@@ -68,7 +68,7 @@ def insert_telegram_data(parsed_telegram):
                 timestamp_piekvermogen,
                 actief_verbruik_kw,
                 actief_injectie_kw,
-                instant_vermogen_L1_kw,
+                instant_vermogen_L1_P_kw,
                 instant_vermogen_L1_injectie_kw,
                 spanning_V,
                 stroom_A,
@@ -88,7 +88,7 @@ def insert_telegram_data(parsed_telegram):
                 :actief_verbruik_kw,
                 :actief_injectie_kw,
                 :instant_vermogen_L1_P_kw,
-                :instant_vermogen_L1_P_kw,
+                :instant_vermogen_L1_injectie_kw,
                 :spanning_V,
                 :stroom_A,
                 :gas_verbruik_m³,
@@ -100,7 +100,7 @@ def insert_telegram_data(parsed_telegram):
         for key in parsed_telegram.keys():
             if key != "header":
                 if key in parsed_telegram:
-                    parsed_telegram[key] = parsed_telegram[key][0]
+                    parsed_telegram[key] = parsed_telegram[key]
                 else:
                     parsed_telegram[key] = 0.0
 
@@ -110,6 +110,7 @@ def insert_telegram_data(parsed_telegram):
         print(f"Error inserting data into the database: {e}")
     finally:
         conn.close()
+
 
 def print_database_data():
     try:
