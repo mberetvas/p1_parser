@@ -96,10 +96,10 @@ def insert_telegram_data(parsed_telegram):
             )
         '''
         
-        # Convert timestamps to UTC timestamps (float)
-        parsed_telegram['timestamp'] = convert_to_utc(parsed_telegram['timestamp'])
-        parsed_telegram['timestamp_piekvermogen'] = convert_to_utc(parsed_telegram['timestamp_piekvermogen'])
-        parsed_telegram['timestamp_gas'] = convert_to_utc(parsed_telegram['timestamp_gas'])
+        # Convert timestamps to UTC timestamps (float) by accessing the first element of the list
+        parsed_telegram['timestamp'] = convert_to_utc(parsed_telegram['timestamp'][0])
+        parsed_telegram['timestamp_piekvermogen'] = convert_to_utc(parsed_telegram['timestamp_piekvermogen'][0])
+        parsed_telegram['timestamp_gas'] = convert_to_utc(parsed_telegram['timestamp_gas'][0])
 
         # Replace missing data with 0.
         for key in parsed_telegram.keys():
