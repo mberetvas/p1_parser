@@ -62,7 +62,6 @@ def parse_telegram(message):
             if match:
                 key = match.group(1)
                 value = match.group(2)
-                print(len(value.split("(")))
                 parsed_telegram[key] = value.split("*")[0]
     return parsed_telegram
 
@@ -72,7 +71,6 @@ def main():
         for k,v in parse_telegram(data.decode('utf-8')).items():
             print(k,' = ',v)
         print('\n')
-        time.sleep(1)
 
 if __name__ == "__main__":
     main()
