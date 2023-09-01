@@ -58,21 +58,24 @@ def parse_telegram(message):
         if line.startswith("/"):
             parsed_telegram["header"] = line[1:]
         else:
-            pattern = r"(\d+-\d+:\d+\.\d+\.\d+)\((\d+\.\d+)\*(\w+)\)"
-            match = re.match(pattern, line)
-            if match:
-                key = match.group(1)
-                value = match.group(2)
-                unit = match.group(3)
-                parsed_telegram[key] = value,unit
+            # pattern = r"(\d+-\d+:\d+\.\d+\.\d+)\((\d+\.\d+)\*(\w+)\)"
+            # match = re.match(pattern, line)
+            # if match:
+            #     key = match.group(1)
+            #     value = match.group(2)
+            #     unit = match.group(3)
+            #     parsed_telegram[key] = value,unit
+            idx = line.index(":")
+            first_part = line[:idx]
+            second_part = line[idx:]
+            print(f"{first_part} = {second_part}")
     return parsed_telegram
 
 def main():
     while True:
         data, crc1 = read_telegram()
         message = parse_telegram(data.decode('utf-8'))
-        for k,v in message.items():
-            print(k," = ",v,"\n")
+
         print('\n')
 
 if __name__ == "__main__":
