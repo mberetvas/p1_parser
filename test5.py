@@ -111,6 +111,30 @@ def insert_telegram_data(parsed_telegram):
     finally:
         conn.close()
 
+def print_database_data():
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+
+        # Execute a SELECT query to retrieve all records from the table
+        cursor.execute("SELECT * FROM p1_data")
+
+        # Fetch all rows from the result set
+        rows = cursor.fetchall()
+
+        # Print the column headers
+        column_names = [description[0] for description in cursor.description]
+        print("\t".join(column_names))
+
+        # Print the data
+        for row in rows:
+            print("\t".join(str(value) for value in row))
+
+    except Exception as e:
+        print(f"Error reading data from the database: {e}")
+    finally:
+        conn.close()
+
 def crc16(data):
     """
     Calculate the CRC16 checksum of the given data.
@@ -206,12 +230,16 @@ def main():
     """
     Main function to read and parse telegrams continuously.
     """
-    telegram = {}
+    n = 0
     while True:
+        n += 1
         data, crc1 = read_telegram()
-        message = parse_telegram(data.decode('utf-8'))
-        print(telegram)
-        print("\n")
+        parsed_telegram = parse_telegram(data.decode('utf-8'))
+        insert_telegram_data(parsed_telegram)
+        if n == 10:
+            print_database_data()
+
+
 
 
 if __name__ == "__main__":
