@@ -72,7 +72,7 @@ def main():
     while True:
         data, crc1 = read_telegram()
         message = parse_telegram(data.decode('utf-8'))
-        print([(k,v) for k,v in message.items()] )
+        print([(k,v,"\n") for k,v in message.items()] )
         print('\n')
 
 if __name__ == "__main__":
