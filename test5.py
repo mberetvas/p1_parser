@@ -68,7 +68,7 @@ def parse_telegram(message):
             try:
                 idx = line.index("(")
                 first_part = line[:idx]
-                second_part = line[idx:]
+                second_part = line[idx:].split()
                 print(f"{first_part} = {second_part}")
             except:
                 continue
