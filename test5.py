@@ -96,11 +96,11 @@ def insert_telegram_data(parsed_telegram):
             )
         '''
 
-        # Replace missing data with 0 and convert non-timestamp values to float
+        # Replace missing data with 0.
         for key in parsed_telegram.keys():
             if key != "header":
                 if key in parsed_telegram:
-                    parsed_telegram[key] = float(parsed_telegram[key][0])
+                    parsed_telegram[key] = parsed_telegram[key][0]
                 else:
                     parsed_telegram[key] = 0.0
 
