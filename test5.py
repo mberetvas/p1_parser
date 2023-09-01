@@ -105,10 +105,10 @@ def parse_telegram(message):
 
 
 def main():
+    main_df = pandas.DataFrame()
     while True:
         data, crc1 = read_telegram()
         message = parse_telegram(data.decode('utf-8'))
-        main_df = pandas.DataFrame()
         df_message = pandas.DataFrame.from_dict(message)
         df3 = pandas.concat([main_df,df_message],ignore_index=True)
         print(len(df3))
