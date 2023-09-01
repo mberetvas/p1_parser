@@ -129,6 +129,7 @@ def main():
         message = parse_telegram(data.decode('utf-8'))
         append_dicts(telegrams,message)
         if count_nested_dicts(telegrams) > 10:
+            print(telegrams)
             df = pandas.DataFrame.from_dict(telegrams)
             print(df)
         else:
