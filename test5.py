@@ -65,6 +65,7 @@ def parse_telegram(message):
             #     value = match.group(2)
             #     unit = match.group(3)
             #     parsed_telegram[key] = value,unit
+            print(line)
             idx = line.index(":")
             first_part = line[:idx]
             second_part = line[idx:]
