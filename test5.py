@@ -2,6 +2,7 @@ import serial
 import crcmod
 import time
 import re
+import pandas
 
 
 # serial port config dictionary
@@ -57,13 +58,13 @@ def parse_telegram(message):
         if line.startswith("/"):
             parsed_telegram["header"] = line[1:]
         else:
-            match = re.match(r"(\d+-\d+:\d+\.\d+\.\d+)\((.*)\)", line)
+            match = re.match(r"(\d+-\d+:\d+\.\d+\.\d+)\((.*?)(\*?.*)\)", line)
             if match:
                 key = match.group(1)
-                value = match.group(2)
-                parsed_telegram[key] = value
+                value = match.group(2).strip()
+                unit = match.group(3).strip("*").strip()
+                parsed_telegram[key] = value, unit
     return parsed_telegram
-
 
 def main():
     while True:
