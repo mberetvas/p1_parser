@@ -71,7 +71,8 @@ def parse_telegram(message):
 def main():
     while True:
         data, crc1 = read_telegram()
-        parse_telegram(data.decode('utf-8'))
+        message = parse_telegram(data.decode('utf-8'))
+        print([(k,v) for k,v in message.items()] )
         print('\n')
 
 if __name__ == "__main__":
