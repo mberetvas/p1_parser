@@ -124,6 +124,7 @@ def parse_telegram(message):
                         if obis_code == "1-0:1.6.0":
                             parsed_telegram["timestamp_piekvermogen"] = value[0]
                             parsed_telegram["piekvermogen_huidige_maand"] = value[1]
+
                         elif obis_code == "0-1:24.2.3":
                             parsed_telegram["timestamp_gas"] = value[0]
                             parsed_telegram["gas_verbruik_m³"] = value[1]
