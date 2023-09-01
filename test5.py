@@ -1,10 +1,19 @@
 import serial
-import crcmod
-import time
-import re
-import pandas
+import sqlite3
 from datetime import datetime, timezone
 
+
+# Serial port configuration dictionary
+SERIAL_CONFIG = {
+    'port': '/dev/ttyUSB0',
+    'baudrate': 115200,
+    'bytesize': serial.EIGHTBITS,
+    'parity': serial.PARITY_NONE,
+    'stopbits': serial.STOPBITS_ONE
+}
+
+# Define the path to the SQLite database file
+DB_PATH = "p_db.db"
 
 # Dict with obiscode description (24) to add or remove from database comment line out
 obiscodes = {
@@ -34,15 +43,73 @@ obiscodes = {
     "0-1:24.2.3":"gas_verbruik_m³" # Last value of 'not temperature corrected' gas volume in m³,including decimal values and capture time
 }
 
-# Serial port configuration dictionary
-SERIAL_CONFIG = {
-    'port': '/dev/ttyUSB0',
-    'baudrate': 115200,
-    'bytesize': serial.EIGHTBITS,
-    'parity': serial.PARITY_NONE,
-    'stopbits': serial.STOPBITS_ONE
-}
 
+def insert_telegram_data(parsed_telegram):
+    """
+    Insert parsed telegram data into an SQLite database.
+
+    :param parsed_telegram: Dictionary containing parsed telegram data.
+    """
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+
+        # Prepare the SQL statement to insert data into the existing table
+        insert_data_sql = '''
+            INSERT INTO p1_data (
+                timestamp,
+                totaal_verbruik_dagtarief_kwh,
+                totaal_verbruik_nachttarief_kwh,
+                totaal_injectie_dagtarief_kwh,
+                Totale_injectie_nachttarief_kwh,
+                Tarief_indicatie,
+                gemmiddeld_verbruik_kw,
+                piekvermogen_huidige_maand,
+                timestamp_piekvermogen,
+                actief_verbruik_kw,
+                actief_injectie_kw,
+                instant_vermogen_L1_P_kw,
+                instant_vermogen_L1_P_kw,
+                spanning_V,
+                stroom_A,
+                gas_verbruik_m³,
+                timestamp_gas
+            )
+            VALUES (
+                :timestamp,
+                :totaal_verbruik_dagtarief_kwh,
+                :totaal_verbruik_nachttarief_kwh,
+                :totaal_injectie_dagtarief_kwh,
+                :Totale_injectie_nachttarief_kwh,
+                :Tarief_indicatie,
+                :gemmiddeld_verbruik_kw,
+                :piekvermogen_huidige_maand,
+                :timestamp_piekvermogen,
+                :actief_verbruik_kw,
+                :actief_injectie_kw,
+                :instant_vermogen_L1_P_kw,
+                :instant_vermogen_L1_P_kw,
+                :spanning_V,
+                :stroom_A,
+                :gas_verbruik_m³,
+                :timestamp_gas
+            )
+        '''
+
+        # Replace missing data with 0 and convert non-timestamp values to float
+        for key in parsed_telegram.keys():
+            if key != "header":
+                if key in parsed_telegram:
+                    parsed_telegram[key] = float(parsed_telegram[key][0])
+                else:
+                    parsed_telegram[key] = 0.0
+
+        cursor.execute(insert_data_sql, parsed_telegram)
+        conn.commit()
+    except Exception as e:
+        print(f"Error inserting data into the database: {e}")
+    finally:
+        conn.close()
 
 def crc16(data):
     """
