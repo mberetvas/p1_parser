@@ -104,8 +104,9 @@ def main():
     while True:
         data, crc1 = read_telegram()
         message = parse_telegram(data.decode('utf-8'))
-        telegram.update(message)
+        telegram = telegram.update(message)
         print(telegram)
+        print("\n")
 
 if __name__ == "__main__":
     main()
