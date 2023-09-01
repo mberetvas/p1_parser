@@ -108,8 +108,10 @@ def main():
     while True:
         data, crc1 = read_telegram()
         message = parse_telegram(data.decode('utf-8'))
-        df = pandas.DataFrame.from_dict(message)
-        print(df)
+        main_df = pandas.Dataframe()
+        df_message = pandas.DataFrame.from_dict(message)
+        main_df = main_df.append(df_message)
+        print(main_df)
         print('\n')
 
 
