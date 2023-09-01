@@ -66,7 +66,7 @@ def parse_telegram(message):
             #     unit = match.group(3)
             #     parsed_telegram[key] = value,unit
             try:
-                idx = line.index(":")
+                idx = line.index("(")
                 first_part = line[:idx]
                 second_part = line[idx:]
                 print(f"{first_part} = {second_part}")
