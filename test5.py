@@ -29,7 +29,7 @@ obiscodes = {
     "1-0:31.4.0":"fuse_threshold_A", # fuse_treshold
     "0-0:96.13.0":"Text_Messag", # (for future use)
     #"0-1:24.1.0":"Device_type", # device-type
-    "0-1:24.4.0":"gasklep_stand" # gasklep_stand
+    #"0-1:24.4.0":"gasklep_stand" # gasklep_stand
     #"0-1:24.2.3":"gas_verbruik_m³" # Last value of 'not temperature corrected' gas volume in m³,including decimal values and capture time
 }
 
@@ -86,56 +86,26 @@ def parse_telegram(message):
         if line.startswith("/"):
             parsed_telegram["header"] = line[1:]
         else:
-            # pattern = r"(\d+-\d+:\d+\.\d+\.\d+)\((\d+\.\d+)\*(\w+)\)"
-            # match = re.match(pattern, line)
-            # if match:
-            #     key = match.group(1)
-            #     value = match.group(2)
-            #     unit = match.group(3)
-            #     parsed_telegram[key] = value,unit
             try:
                 idx = line.index("(")
                 obis_code = line[:idx]
                 value = line[idx:].replace("(", " (").split()
                 if obis_code in obiscodes:
-                    parsed_telegram[obiscodes[obis_code]] = value
+                    if len(value) > 1:
+                        parsed_telegram[obiscodes[obis_code]] = value[1]
+                    else:
+                        parsed_telegram[obiscodes[obis_code]] = value
             except:
                 continue
     return parsed_telegram
 
-
-# Append dict2 to dict1 with incremented names
-def append_dicts(dict1, dict2):
-    i = 1
-    for key, value in dict2.items():
-        new_key = key + str(i)
-        dict1[new_key] = value
-        i += 1
-
-def count_nested_dicts(d):
-    count = 0
-    for value in d.values():
-        if isinstance(value, dict):
-            count += 1
-    return count
-
 def main():
-    telegrams = {}
-    n = 0
+    telegram = {}
     while True:
-        n += 1
-        print(n)
         data, crc1 = read_telegram()
         message = parse_telegram(data.decode('utf-8'))
-        append_dicts(telegrams,message)
-        if count_nested_dicts(telegrams) > 10:
-            print(telegrams)
-            df = pandas.DataFrame.from_dict(telegrams)
-            print(df)
-        else:
-            continue
-
-
+        telegram.update(message)
+        print(telegram)
 
 if __name__ == "__main__":
     main()
