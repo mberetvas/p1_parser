@@ -110,9 +110,16 @@ def main():
         message = parse_telegram(data.decode('utf-8'))
         main_df = pandas.DataFrame()
         df_message = pandas.DataFrame.from_dict(message)
-        df3 = pandas.concat([main_df,df_message])
-        print(df3)
-        print('\n')
+        try:
+            df3 = pandas.concat([main_df,df_message],ignore_index=True)
+        except:
+            continue
+        if len(df3) == 10:
+            print(df3)
+            print('\n')
+        else:
+            continue
+        
 
 
 if __name__ == "__main__":
