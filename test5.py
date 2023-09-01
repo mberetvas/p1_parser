@@ -109,7 +109,10 @@ def main():
         data, crc1 = read_telegram()
         message = parse_telegram(data.decode('utf-8'))
         main_df = pandas.DataFrame()
-        df_message = pandas.DataFrame.from_dict(message)
+        try:
+            df_message = pandas.DataFrame.from_dict(message)
+        except:
+            continue
         try:
             df3 = pandas.concat([main_df,df_message],ignore_index=True)
         except:
