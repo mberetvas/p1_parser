@@ -62,7 +62,10 @@ def parse_telegram(message):
             if match:
                 key = match.group(1)
                 value = match.group(2)
-                parsed_telegram[key] = value.split("*")[0]
+                if len(value.split("*")) > 2:
+                    parsed_telegram[key] = value
+                else:
+                    parsed_telegram[key] = value.split("*")[0]
     return parsed_telegram
 
 def main():
