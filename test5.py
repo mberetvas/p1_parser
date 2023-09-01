@@ -67,19 +67,22 @@ def parse_telegram(message):
             #     parsed_telegram[key] = value,unit
             try:
                 idx = line.index("(")
-                first_part = line[:idx]
-                second_part = line[idx:].replace("("," (").split()
-                print(f"{first_part} = {second_part}")
+                obis_code = line[:idx]
+                value = line[idx:].replace("(", " (").split()
+                parsed_telegram[obis_code] = value
             except:
                 continue
     return parsed_telegram
+
 
 def main():
     while True:
         data, crc1 = read_telegram()
         message = parse_telegram(data.decode('utf-8'))
-
+        df = pandas.DataFrame(message)
+        print(df)
         print('\n')
+
 
 if __name__ == "__main__":
     main()
