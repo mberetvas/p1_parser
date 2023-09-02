@@ -2,6 +2,7 @@ import serial
 import sqlite3
 from datetime import datetime, timezone
 import pytz
+import csv
 
 
 # Serial port configuration dictionary
@@ -177,28 +178,17 @@ def parse_telegram(message):
                 continue
     return parsed_telegram
 
-def append_dict_to_db(dictionary, db_name, table_name):
+def create_csv(dictionary, filename):
     """
-    Appends a dictionary to an SQLite3 database.
+    Create a CSV file from a dictionary.
 
-    :param dictionary: Dictionary to be appended.
-    :param db_name: Name of the database file.
-    :param table_name: Name of the table.
+    :param dictionary: Dictionary to be converted to CSV.
+    :param filename: Name of the CSV file to be created.
     """
-    try:
-        conn = sqlite3.connect(db_name)
-        cursor = conn.cursor()
-
-        # Insert the dictionary into the table
-        cursor.execute("INSERT INTO {} VALUES ({})".format(table_name, ",".join(dictionary.keys())))
-        conn.commit()
-
-    except Exception as e:
-        print(f"Error appending dictionary to database: {e}")
-    finally:
-        conn.close()
-
-
+    with open(filename, "w") as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=dictionary.keys())
+        writer.writeheader()
+        writer.writerow(dictionary)
 
 def main():
     """
@@ -207,9 +197,7 @@ def main():
     while True:
         data, crc1 = read_telegram()
         parsed_telegram = parse_telegram(data.decode('utf-8'))
-        append_dict_to_db(parsed_telegram, "p_db.db", "p1_data")
-        
-
+        create_csv(parse_telegram, "p1_data.csv")
 
 if __name__ == "__main__":
     main()
