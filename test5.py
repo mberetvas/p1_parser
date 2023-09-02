@@ -264,11 +264,7 @@ def main():
             print(parsed_telegram)
             print('\n')
             timestamp = parsed_telegram["timestamp_gas"]
-            #print(timestamp)
-            print(timestamp)
-
-
-            #  print(convert_to_utc(timestamp))
+            print(convert_to_utc(timestamp))
         except Exception as e:
             print(e)
         # for k,v in parsed_telegram.items():
