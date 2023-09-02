@@ -261,7 +261,7 @@ def main():
         data, crc1 = read_telegram()
         parsed_telegram = parse_telegram(data.decode('utf-8'))
         try:
-            timestamp = parsed_telegram["timestamp_gas"]
+            timestamp = parsed_telegram["timestamp"]
             #print(timestamp)
             
             timestamp = timestamp.strip('()')
