@@ -177,7 +177,7 @@ def parse_telegram(message):
                         else:
                             parsed_telegram[obiscodes[obis_code]] = value[0].split('*')[0].strip('()')
             except Exception as e:
-                error += 1
+                ERRORS += 1
                 # print(f"{e} / line = {line}")
                 continue
     return parsed_telegram
@@ -202,7 +202,7 @@ def main():
     """
     while True:
         data, crc1 = read_telegram()
-        telegrams_read += 1
+        TELEGRAMS_READ += 1
         parsed_telegram = parse_telegram(data.decode('utf-8'))
         create_csv(parsed_telegram, "p1_data.csv")
         print(f"amount of telegrams read = {TELEGRAMS_READ}\n")
