@@ -174,6 +174,7 @@ def parse_telegram(message):
                         else:
                             parsed_telegram[obiscodes[obis_code]] = value[0].split('*')[0].strip('()')
             except Exception as e:
+                error += 1
                 # print(f"{e} / line = {line}")
                 continue
     return parsed_telegram
@@ -196,12 +197,16 @@ def main():
     """
     Main function to read and parse telegrams continuously.
     """
+    telegrams_read = 0
+    errors = 0
     while True:
         data, crc1 = read_telegram()
+        telegrams_read += 1
         parsed_telegram = parse_telegram(data.decode('utf-8'))
-        print(parsed_telegram)
-        print("\n")
         create_csv(parsed_telegram, "p1_data.csv")
+        print(f"amount of telegrams read = {telegrams_read}\n")
+        print(f"amount of errors = {errors}\n")
+        
 
 if __name__ == "__main__":
     main()
