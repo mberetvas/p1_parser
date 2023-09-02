@@ -197,7 +197,7 @@ def main():
     while True:
         data, crc1 = read_telegram()
         parsed_telegram = parse_telegram(data.decode('utf-8'))
-        create_csv(parse_telegram, "p1_data.csv")
+        create_csv(parsed_telegram, "p1_data.csv")
 
 if __name__ == "__main__":
     main()
