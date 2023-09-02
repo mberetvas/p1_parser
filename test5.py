@@ -230,7 +230,7 @@ def parse_telegram(message):
     for line in message.split("\n"):
         if line.startswith("/"):
             parsed_telegram["header"] = line[1:]
-        elif line == " ":
+        elif line == "":
             continue
         elif line.startswith("!"):
             continue
