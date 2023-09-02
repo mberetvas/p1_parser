@@ -261,7 +261,7 @@ def main():
         parsed_telegram = parse_telegram(data.decode('utf-8'))
         try:
             timestamp = parsed_telegram["timestamp"]
-            timestamp = str(timestamp[0])
+            timestamp = timestamp[0].strip('()')
 
             print(timestamp)
             print(convert_to_utc(timestamp))
