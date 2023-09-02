@@ -97,17 +97,17 @@ def insert_telegram_data(parsed_telegram):
         '''
         
         # Convert timestamps to UTC timestamps (float) by accessing the first element of the list
-        parsed_telegram['timestamp'] = convert_to_utc(parsed_telegram['timestamp'][0])
-        parsed_telegram['timestamp_piekvermogen'] = convert_to_utc(parsed_telegram['timestamp_piekvermogen'][0])
-        parsed_telegram['timestamp_gas'] = convert_to_utc(parsed_telegram['timestamp_gas'][0])
+        # parsed_telegram['timestamp'] = convert_to_utc(parsed_telegram['timestamp'][0])
+        # parsed_telegram['timestamp_piekvermogen'] = convert_to_utc(parsed_telegram['timestamp_piekvermogen'][0])
+        # parsed_telegram['timestamp_gas'] = convert_to_utc(parsed_telegram['timestamp_gas'][0])
 
         # Replace missing data with 0.
-        for key in parsed_telegram.keys():
-            if key != "header":
-                if key in parsed_telegram:
-                    parsed_telegram[key] = parsed_telegram[key]
-                else:
-                    parsed_telegram[key] = 0.0
+        # for key in parsed_telegram.keys():
+        #     if key != "header":
+        #         if key in parsed_telegram:
+        #             parsed_telegram[key] = parsed_telegram[key]
+        #         else:
+        #             parsed_telegram[key] = 0.0
 
         cursor.execute(insert_data_sql, parsed_telegram)
         conn.commit()
@@ -241,8 +241,10 @@ def main():
         n += 1
         data, crc1 = read_telegram()
         parsed_telegram = parse_telegram(data.decode('utf-8'))
-        for k,v in parsed_telegram.items():
-            print(f"{k} = {v}")
+        timestamp = parsed_telegram[timestamp]
+        print(timestamp)
+        # for k,v in parsed_telegram.items():
+        #     print(f"{k} = {v}")
         print("\n")
         # insert_telegram_data(parsed_telegram)
         # if n == 10:
