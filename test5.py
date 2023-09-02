@@ -263,10 +263,8 @@ def main():
         try:
             print(parsed_telegram)
             print('\n')
-            timestamp = parsed_telegram["timestamp"]
+            timestamp = parsed_telegram["timestamp_gas"]
             #print(timestamp)
-            
-            timestamp = timestamp.strip('()')
             print(timestamp)
 
 
