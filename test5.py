@@ -241,7 +241,7 @@ def main():
         n += 1
         data, crc1 = read_telegram()
         parsed_telegram = parse_telegram(data.decode('utf-8'))
-        timestamp = parsed_telegram[timestamp]
+        timestamp = parsed_telegram["timestamp"]
         print(timestamp)
         # for k,v in parsed_telegram.items():
         #     print(f"{k} = {v}")
