@@ -245,7 +245,7 @@ def parse_telegram(message):
 
                         elif obis_code == "0-1:24.2.3":
                             parsed_telegram["timestamp_gas"] = convert_to_utc(value[0].strip('()'))
-                            parsed_telegram["gas_verbruik_m³"] = value[1].strip('()')
+                            parsed_telegram["gas_verbruik_m³"] = value[1].split("*")[0].strip('()')
                     else:
                         if obis_code == "0-0:1.0.0":
                             parsed_telegram["timestamp"] = convert_to_utc(value[0].strip('()'))
