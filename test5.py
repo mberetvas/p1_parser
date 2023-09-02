@@ -238,15 +238,19 @@ def parse_telegram(message):
                 if obis_code in obiscodes:
                     if len(value) > 1:
                         if obis_code == "1-0:1.6.0":
-                            parsed_telegram["timestamp_piekvermogen"] = value[0].strip('()')
+                            parsed_telegram["timestamp_piekvermogen"] = convert_to_utc(value[0].strip('()'))
                             parsed_telegram["piekvermogen_huidige_maand"] = value[1].strip('()')
 
                         elif obis_code == "0-1:24.2.3":
-                            parsed_telegram["timestamp_gas"] = value[0].strip('()')
+                            parsed_telegram["timestamp_gas"] = convert_to_utc(value[0].strip('()'))
                             parsed_telegram["gas_verbruik_m³"] = value[1].strip('()')
                     else:
-                        parsed_telegram[obiscodes[obis_code]] = value[0].strip('()')
-            except:
+                        if obis_code == "0-0:1.0.0":
+                            parsed_telegram["timestamp"] = convert_to_utc(value[0].strip('()'))
+                        else:
+                            parsed_telegram[obiscodes[obis_code]] = value[0].strip('()')
+            except Exception as e:
+                print(e)
                 continue
     return parsed_telegram
 
@@ -260,15 +264,9 @@ def main():
         n += 1
         data, crc1 = read_telegram()
         parsed_telegram = parse_telegram(data.decode('utf-8'))
-        try:
-            print(parsed_telegram)
-            print('\n')
-            timestamp = parsed_telegram["timestamp_gas"]
-            print(convert_to_utc(timestamp))
-        except Exception as e:
-            print(e)
-        # for k,v in parsed_telegram.items():
-        #     print(f"{k} = {v}")
+
+        for k,v in parsed_telegram.items():
+            print(f"{k} = {v}")
         print("\n")
         # insert_telegram_data(parsed_telegram)
         # if n == 10:
