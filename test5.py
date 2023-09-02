@@ -5,8 +5,7 @@ import pytz
 import csv
 
 
-TELEGRAMS_READ = 0
-ERRORS = 0
+
 
 # Serial port configuration dictionary
 SERIAL_CONFIG = {
@@ -200,6 +199,8 @@ def main():
     """
     Main function to read and parse telegrams continuously.
     """
+    TELEGRAMS_READ = 0
+    ERRORS = 0
     while True:
         data, crc1 = read_telegram()
         TELEGRAMS_READ += 1
