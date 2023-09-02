@@ -280,21 +280,11 @@ def main():
     """
     Main function to read and parse telegrams continuously.
     """
-    n = 0
     while True:
-        n += 1
         data, crc1 = read_telegram()
         parsed_telegram = parse_telegram(data.decode('utf-8'))
-
-        for k,v in parsed_telegram.items():
-            print(f"{k} = {v}")
-        print("\n")
-        # insert_telegram_data(parsed_telegram)
-        # if n == 10:
-        #     print_database_data()
-
-
-
+        insert_telegram_data(parsed_telegram)
+        print_database_data()
 
 if __name__ == "__main__":
     main()
