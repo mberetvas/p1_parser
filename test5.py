@@ -226,7 +226,26 @@ def parse_telegram(message):
     :param message: Telegram message as a string.
     :return: Dictionary containing parsed information from the telegram.
     """
-    parsed_telegram = {}
+    parsed_telegram = {
+        "header":"0",
+        "timestamp":"0",
+        "totaal_verbruik_dagtarief_kwh":"0",
+        "totaal_verbruik_nachttarief_kwh":"0",
+        "totaal_injectie_dagtarief_kwh":"0",
+        "totale_injectie_nachttarief_kwh":"0",
+        "Tarief_indicatie":"0",
+        "gemmiddeld_verbruik_kw":"0",
+        "timestamp_piekvermogen":"0",
+        "piekvermogen_huidige_maand":"0",
+        "actief_verbruik_kw":"0",
+        "acitef_injectie_kw":"0",
+        "instant_vermogen_L1+P_kw":"0",
+        "instant_vermogen_l1_injectie_kw":"0",
+        "spanninf_V":"0",
+        "stroom_A":"0",
+        "timestamp_gas":"0",
+        "gas_verbruik_m³":"0"
+    }
     for line in message.split("\n"):
         if line.startswith("/"):
             parsed_telegram["header"] = line[1:]
