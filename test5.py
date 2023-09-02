@@ -245,7 +245,7 @@ def parse_telegram(message):
                             parsed_telegram["timestamp_gas"] = value[0]
                             parsed_telegram["gas_verbruik_m³"] = value[1]
                     else:
-                        parsed_telegram[obiscodes[obis_code]] = value
+                        parsed_telegram[obiscodes[obis_code]] = value[0]
             except:
                 continue
     return parsed_telegram
