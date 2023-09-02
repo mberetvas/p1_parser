@@ -185,10 +185,12 @@ def create_csv(dictionary, filename):
     :param dictionary: Dictionary to be converted to CSV.
     :param filename: Name of the CSV file to be created.
     """
-    with open(filename, "w") as csvfile:
+    with open(filename, "a") as csvfile:
         writer = csv.DictWriter(csvfile, fieldnames=dictionary.keys())
-        writer.writeheader()
+        if not csvfile.tell():
+            writer.writeheader()
         writer.writerow(dictionary)
+
 
 def main():
     """
