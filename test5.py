@@ -170,7 +170,7 @@ def convert_to_utc(timestamp_str):
     :param timestamp_str: Timestamp string in the format 'YYMMDDhhmmssX'.
     :return: UTC timestamp as a float.
     """
-    timestamp = datetime.strptime(timestamp_str, '%Y%m%d%H%M%S%S')
+    timestamp = datetime.strptime(timestamp_str, '%Y%m%d%H%M%S')
     utc_timestamp = timestamp.replace(tzinfo=timezone.utc).timestamp()
     return utc_timestamp
 
