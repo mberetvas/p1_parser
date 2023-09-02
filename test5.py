@@ -124,7 +124,7 @@ def read_telegram():
 def parse_telegram(message):
     """
     Parse a telegram message and extract information from it.
-
+    #
     :param message: Telegram message as a string.
     :return: Dictionary containing parsed information from the telegram.
     """
