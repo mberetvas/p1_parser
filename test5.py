@@ -198,10 +198,14 @@ def main():
     """
     Main function to read and parse telegrams continuously.
     """
+    n = 0
     while True:
         data, crc1 = read_telegram()
         parsed_telegram = parse_telegram(data.decode('utf-8'))
         create_csv(parsed_telegram, "p1_data.csv")
+        print("script running\n")
+        print(f"{n} times telegram was read\n")
+        n += 1
 
 if __name__ == "__main__":
     main()
