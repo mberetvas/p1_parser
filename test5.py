@@ -164,12 +164,12 @@ def crc16(data):
     return crc & 0xFFFF
 
 
-def convert_to_utc(timestamp_str):
+def convert_to_utc_with_format_new(timestamp_str):
     """
-    Convert a timestamp string to a UTC timestamp, taking into account DST rules.
+    Convert a timestamp string to a UTC timestamp in the format 'YYYY-MM-DDTHH:MM:SSZ'.
 
     :param timestamp_str: Timestamp string in the format 'YYMMDDhhmmssX'.
-    :return: UTC timestamp as a float.
+    :return: UTC timestamp in the format 'YYYY-MM-DDTHH:MM:SSZ'.
     """
     # Remove "(" and ")"
     
@@ -189,7 +189,10 @@ def convert_to_utc(timestamp_str):
     local_datetime = local_tz.localize(local_datetime, is_dst=None)
     # Convert the datetime object to UTC and get the UTC timestamp as a float
     utc_datetime = local_datetime.astimezone(timezone.utc)
-    utc_timestamp = utc_datetime.timestamp()
+    utc_timestamp = utc_datetime.strftime('%Y-%m-%dT%H:%M:%SZ')
+    
+    # Reverse the order of the day, month and year
+    utc_timestamp = utc_timestamp[-2:] + utc_timestamp[0:2] + utc_timestamp[3:5] + utc_timestamp[6:8]
     return utc_timestamp
 
 
