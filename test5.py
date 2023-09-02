@@ -261,6 +261,8 @@ def main():
         data, crc1 = read_telegram()
         parsed_telegram = parse_telegram(data.decode('utf-8'))
         try:
+            print(parsed_telegram)
+            print('\n')
             timestamp = parsed_telegram["timestamp"]
             #print(timestamp)
             
