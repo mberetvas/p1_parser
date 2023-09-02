@@ -241,8 +241,11 @@ def main():
         n += 1
         data, crc1 = read_telegram()
         parsed_telegram = parse_telegram(data.decode('utf-8'))
-        timestamp = parsed_telegram["timestamp"]
-        print(timestamp)
+        try:
+            timestamp = parsed_telegram["timestamp"]
+            print(timestamp)
+        except Exception as e:
+            print(e)
         # for k,v in parsed_telegram.items():
         #     print(f"{k} = {v}")
         print("\n")
