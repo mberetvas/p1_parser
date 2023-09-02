@@ -25,7 +25,7 @@ obiscodes = {
     "1-0:1.8.1":"totaal_verbruik_dagtarief_kwh",
     "1-0:1.8.2":"totaal_verbruik_nachttarief_kwh",
     "1-0:2.8.1":"totaal_injectie_dagtarief_kwh",
-    "1-0:2.8.2":"Totale_injectie_nachttarief_kwh",
+    "1-0:2.8.2":"totale_injectie_nachttarief_kwh",
     "0-0:96.14.0":"Tarief_indicatie", # tarief_indicatie
     "1-0:1.4.0":"gemmiddeld_verbruik_kw", # Gemmiddeld verbruik kw
     "1-0:1.6.0":"piekvermogen_huidige_maand", # Maximum piekvermogen voor huidige maand
@@ -141,7 +141,7 @@ def parse_telegram(message):
         "timestamp_piekvermogen":"0",
         "piekvermogen_huidige_maand":"0",
         "actief_verbruik_kw":"0",
-        "acitef_injectie_kw":"0",
+        "actief_injectie_kw":"0",
         "instant_vermogen_L1+P_kw":"0",
         "instant_vermogen_l1_injectie_kw":"0",
         "spanning_V":"0",
