@@ -250,7 +250,7 @@ def parse_telegram(message):
                         else:
                             parsed_telegram[obiscodes[obis_code]] = value[0].strip('()')
             except Exception as e:
-                #print(e)
+                print(f"{e} = {obis_code}")
                 continue
     return parsed_telegram
 
