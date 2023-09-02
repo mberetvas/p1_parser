@@ -244,7 +244,7 @@ def main():
         try:
             timestamp = parsed_telegram["timestamp"]
             timestamp = timestamp[0]
-            timestamp = timestamp[:-1]
+            timestamp = timestamp[1:-2]
             print(timestamp)
             print(convert_to_utc(timestamp))
         except Exception as e:
