@@ -238,14 +238,14 @@ def parse_telegram(message):
                 if obis_code in obiscodes:
                     if len(value) > 1:
                         if obis_code == "1-0:1.6.0":
-                            parsed_telegram["timestamp_piekvermogen"] = value[0]
-                            parsed_telegram["piekvermogen_huidige_maand"] = value[1]
+                            parsed_telegram["timestamp_piekvermogen"] = value[0].strip('()')
+                            parsed_telegram["piekvermogen_huidige_maand"] = value[1].strip('()')
 
                         elif obis_code == "0-1:24.2.3":
-                            parsed_telegram["timestamp_gas"] = value[0]
-                            parsed_telegram["gas_verbruik_m³"] = value[1]
+                            parsed_telegram["timestamp_gas"] = value[0].strip('()')
+                            parsed_telegram["gas_verbruik_m³"] = value[1].strip('()')
                     else:
-                        parsed_telegram[obiscodes[obis_code]] = value[0]
+                        parsed_telegram[obiscodes[obis_code]] = value[0].strip('()')
             except:
                 continue
     return parsed_telegram
