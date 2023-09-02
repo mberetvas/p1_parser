@@ -164,7 +164,7 @@ def crc16(data):
     return crc & 0xFFFF
 
 
-def convert_to_utc_with_format_new(timestamp_str):
+def convert_to_utc(timestamp_str):
     """
     Convert a timestamp string to a UTC timestamp in the format 'YYYY-MM-DDTHH:MM:SSZ'.
 
