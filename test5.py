@@ -262,6 +262,7 @@ def main():
         parsed_telegram = parse_telegram(data.decode('utf-8'))
         try:
             timestamp = parsed_telegram["timestamp_gas"]
+            print(timestamp)
             timestamp = timestamp[0].strip('()')
 
             print(timestamp)
