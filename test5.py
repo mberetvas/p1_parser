@@ -58,6 +58,7 @@ def insert_telegram_data(parsed_telegram):
         # Prepare the SQL statement to insert data into the existing table
         insert_data_sql = '''
             INSERT INTO p1_data (
+                header,
                 timestamp,
                 totaal_verbruik_dagtarief_kwh,
                 totaal_verbruik_nachttarief_kwh,
@@ -77,19 +78,20 @@ def insert_telegram_data(parsed_telegram):
                 timestamp_gas
             )
             VALUES (
+                :header,
                 :timestamp,
                 :totaal_verbruik_dagtarief_kwh,
                 :totaal_verbruik_nachttarief_kwh,
                 :totaal_injectie_dagtarief_kwh,
-                :Totale_injectie_nachttarief_kwh,
+                :totale_injectie_nachttarief_kwh,
                 :Tarief_indicatie,
                 :gemmiddeld_verbruik_kw,
                 :piekvermogen_huidige_maand,
                 :timestamp_piekvermogen,
                 :actief_verbruik_kw,
                 :actief_injectie_kw,
-                :instant_vermogen_L1_P_kw,
-                :instant_vermogen_L1_injectie_kw,
+                :instant_vermogen_L1+P_kw,
+                :instant_vermogen_l1_injectie_kw,
                 :spanning_V,
                 :stroom_A,
                 :gas_verbruik_m³,
