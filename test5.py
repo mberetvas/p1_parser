@@ -250,7 +250,7 @@ def parse_telegram(message):
                         if obis_code == "0-0:1.0.0":
                             parsed_telegram["timestamp"] = convert_to_utc(value[0].strip('()'))
                         else:
-                            parsed_telegram[obiscodes[obis_code]] = value[0].strip('()')
+                            parsed_telegram[obiscodes[obis_code]] = value[0].split('*')[0].strip('()')
             except Exception as e:
                 # print(f"{e} / line = {line}")
                 continue
