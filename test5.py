@@ -44,126 +44,26 @@ obiscodes = {
     "0-1:24.2.3":"gas_verbruik_m³" # Last value of 'not temperature corrected' gas volume in m³,including decimal values and capture time
 }
 
+# def crc16(data):
+#     """
+#     Calculate the CRC16 checksum of the given data.
 
-def insert_telegram_data(parsed_telegram):
-    """
-    Insert parsed telegram data into an SQLite database.
-
-    :param parsed_telegram: Dictionary containing parsed telegram data.
-    """
-    try:
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-
-        # Prepare the SQL statement to insert data into the existing table
-        insert_data_sql = '''
-            INSERT INTO p1_data (
-                header,
-                timestamp,
-                totaal_verbruik_dagtarief_kwh,
-                totaal_verbruik_nachttarief_kwh,
-                totaal_injectie_dagtarief_kwh,
-                Totale_injectie_nachttarief_kwh,
-                Tarief_indicatie,
-                gemmiddeld_verbruik_kw,
-                piekvermogen_huidige_maand,
-                timestamp_piekvermogen,
-                actief_verbruik_kw,
-                actief_injectie_kw,
-                instant_vermogen_L1_P_kw,
-                instant_vermogen_L1_injectie_kw,
-                spanning_V,
-                stroom_A,
-                gas_verbruik_m³,
-                timestamp_gas
-            )
-            VALUES (
-                :header,
-                :timestamp,
-                :totaal_verbruik_dagtarief_kwh,
-                :totaal_verbruik_nachttarief_kwh,
-                :totaal_injectie_dagtarief_kwh,
-                :totale_injectie_nachttarief_kwh,
-                :Tarief_indicatie,
-                :gemmiddeld_verbruik_kw,
-                :piekvermogen_huidige_maand,
-                :timestamp_piekvermogen,
-                :actief_verbruik_kw,
-                :actief_injectie_kw,
-                :instant_vermogen_L1+P_kw,
-                :instant_vermogen_l1_injectie_kw,
-                :spanning_V,
-                :stroom_A,
-                :gas_verbruik_m³,
-                :timestamp_gas
-            )
-        '''
-        
-        # Convert timestamps to UTC timestamps (float) by accessing the first element of the list
-        # parsed_telegram['timestamp'] = convert_to_utc(parsed_telegram['timestamp'][0])
-        # parsed_telegram['timestamp_piekvermogen'] = convert_to_utc(parsed_telegram['timestamp_piekvermogen'][0])
-        # parsed_telegram['timestamp_gas'] = convert_to_utc(parsed_telegram['timestamp_gas'][0])
-
-        # Replace missing data with 0.
-        # for key in parsed_telegram.keys():
-        #     if key != "header":
-        #         if key in parsed_telegram:
-        #             parsed_telegram[key] = parsed_telegram[key]
-        #         else:
-        #             parsed_telegram[key] = 0.0
-
-        cursor.execute(insert_data_sql, parsed_telegram)
-        conn.commit()
-    except Exception as e:
-        print(f"Error inserting data into the database: {e}")
-    finally:
-        conn.close()
-
-
-def print_database_data():
-    try:
-        conn = sqlite3.connect(DB_PATH)
-        cursor = conn.cursor()
-
-        # Execute a SELECT query to retrieve all records from the table
-        cursor.execute("SELECT * FROM p1_data")
-
-        # Fetch all rows from the result set
-        rows = cursor.fetchall()
-
-        # Print the column headers
-        column_names = [description[0] for description in cursor.description]
-        print("\t".join(column_names))
-
-        # Print the data
-        for row in rows:
-            print("\t".join(str(value) for value in row))
-
-    except Exception as e:
-        print(f"Error reading data from the database: {e}")
-    finally:
-        conn.close()
-
-def crc16(data):
-    """
-    Calculate the CRC16 checksum of the given data.
-
-    :param data: Bytes to calculate CRC16 on.
-    :return: Calculated CRC16 checksum as an integer.
-    """
-    crc = 0xFFFF
-    polynomial = 0xA001
-    for b in data:
-        cur_byte = 0xFF & b
-        for _ in range(0, 8):
-            if (crc & 0x0001) ^ (cur_byte & 0x0001):
-                crc = (crc >> 1) ^ polynomial
-            else:
-                crc >>= 1
-            cur_byte >>= 1
-    crc = (~crc & 0xFFFF)
-    crc = (crc << 8) | ((crc >> 8) & 0xFF)
-    return crc & 0xFFFF
+#     :param data: Bytes to calculate CRC16 on.
+#     :return: Calculated CRC16 checksum as an integer.
+#     """
+#     crc = 0xFFFF
+#     polynomial = 0xA001
+#     for b in data:
+#         cur_byte = 0xFF & b
+#         for _ in range(0, 8):
+#             if (crc & 0x0001) ^ (cur_byte & 0x0001):
+#                 crc = (crc >> 1) ^ polynomial
+#             else:
+#                 crc >>= 1
+#             cur_byte >>= 1
+#     crc = (~crc & 0xFFFF)
+#     crc = (crc << 8) | ((crc >> 8) & 0xFF)
+#     return crc & 0xFFFF
 
 
 def convert_to_utc(timestamp_str):
@@ -277,6 +177,28 @@ def parse_telegram(message):
                 continue
     return parsed_telegram
 
+def append_dict_to_db(dictionary, db_name, table_name):
+    """
+    Appends a dictionary to an SQLite3 database.
+
+    :param dictionary: Dictionary to be appended.
+    :param db_name: Name of the database file.
+    :param table_name: Name of the table.
+    """
+    try:
+        conn = sqlite3.connect(db_name)
+        cursor = conn.cursor()
+
+        # Insert the dictionary into the table
+        cursor.execute("INSERT INTO {} VALUES ({})".format(table_name, ",".join(dictionary.keys())))
+        conn.commit()
+
+    except Exception as e:
+        print(f"Error appending dictionary to database: {e}")
+    finally:
+        conn.close()
+
+
 
 def main():
     """
@@ -285,8 +207,9 @@ def main():
     while True:
         data, crc1 = read_telegram()
         parsed_telegram = parse_telegram(data.decode('utf-8'))
-        insert_telegram_data(parsed_telegram)
-        print_database_data()
+        append_dict_to_db(parsed_telegram, "p_db.db", "p1_data")
+        
+
 
 if __name__ == "__main__":
     main()
