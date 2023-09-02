@@ -241,7 +241,7 @@ def parse_telegram(message):
         "acitef_injectie_kw":"0",
         "instant_vermogen_L1+P_kw":"0",
         "instant_vermogen_l1_injectie_kw":"0",
-        "spanninf_V":"0",
+        "spanning_V":"0",
         "stroom_A":"0",
         "timestamp_gas":"0",
         "gas_verbruik_m³":"0"
