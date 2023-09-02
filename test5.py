@@ -228,11 +228,8 @@ def parse_telegram(message):
     """
     parsed_telegram = {}
     for line in message.split("\n"):
-        print(line)
         if line.startswith("/"):
             parsed_telegram["header"] = line[1:]
-        elif line == "":
-            continue
         elif line.startswith("!"):
             continue
         else:
@@ -255,7 +252,7 @@ def parse_telegram(message):
                         else:
                             parsed_telegram[obiscodes[obis_code]] = value[0].strip('()')
             except Exception as e:
-                print(f"{e} / line = {line}")
+                # print(f"{e} / line = {line}")
                 continue
     return parsed_telegram
 
