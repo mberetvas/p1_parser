@@ -243,7 +243,9 @@ def main():
         parsed_telegram = parse_telegram(data.decode('utf-8'))
         try:
             timestamp = parsed_telegram["timestamp"]
-            print(convert_to_utc(timestamp[0].replace("S","")))
+            timestamp = timestamp[0]
+            timestamp = timestamp[:-1]
+            print(convert_to_utc(timestamp))
         except Exception as e:
             print(e)
         # for k,v in parsed_telegram.items():
