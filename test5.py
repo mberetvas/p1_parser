@@ -191,8 +191,6 @@ def convert_to_utc(timestamp_str):
     utc_datetime = local_datetime.astimezone(timezone.utc)
     utc_timestamp = utc_datetime.strftime('%Y-%m-%dT%H:%M:%SZ')
     
-    # Reverse the order of the day, month and year
-    utc_timestamp = utc_timestamp[-2:] + utc_timestamp[0:2] + utc_timestamp[3:5] + utc_timestamp[6:8]
     return utc_timestamp
 
 
