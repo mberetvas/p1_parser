@@ -5,6 +5,9 @@ import pytz
 import csv
 
 
+TELEGRAMS_READ = 0
+ERRORS = 0
+
 # Serial port configuration dictionary
 SERIAL_CONFIG = {
     'port': '/dev/ttyUSB0',
@@ -197,16 +200,13 @@ def main():
     """
     Main function to read and parse telegrams continuously.
     """
-    telegrams_read = 0
-    errors = 0
     while True:
         data, crc1 = read_telegram()
         telegrams_read += 1
         parsed_telegram = parse_telegram(data.decode('utf-8'))
         create_csv(parsed_telegram, "p1_data.csv")
-        print(f"amount of telegrams read = {telegrams_read}\n")
-        print(f"amount of errors = {errors}\n")
-        
+        print(f"amount of telegrams read = {TELEGRAMS_READ}\n")
+        print(f"amount of errors = {ERRORS}\n")
 
 if __name__ == "__main__":
     main()
