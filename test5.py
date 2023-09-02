@@ -241,9 +241,12 @@ def main():
         n += 1
         data, crc1 = read_telegram()
         parsed_telegram = parse_telegram(data.decode('utf-8'))
-        insert_telegram_data(parsed_telegram)
-        if n == 10:
-            print_database_data()
+        for k,v in parsed_telegram.items():
+            print(f"{k} = {v}")
+        print("\n")
+        # insert_telegram_data(parsed_telegram)
+        # if n == 10:
+        #     print_database_data()
 
 
 
