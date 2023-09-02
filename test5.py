@@ -1,6 +1,7 @@
 import serial
 import sqlite3
 from datetime import datetime, timezone
+import pytz
 
 
 # Serial port configuration dictionary
@@ -165,13 +166,30 @@ def crc16(data):
 
 def convert_to_utc(timestamp_str):
     """
-    Convert a timestamp string to a UTC timestamp.
+    Convert a timestamp string to a UTC timestamp, taking into account DST rules.
 
     :param timestamp_str: Timestamp string in the format 'YYMMDDhhmmssX'.
     :return: UTC timestamp as a float.
     """
-    timestamp = datetime.strptime(timestamp_str, '%Y%m%d%H%M%S')
-    utc_timestamp = timestamp.replace(tzinfo=timezone.utc).timestamp()
+    # Remove "(" and ")"
+    
+    # Remove the 'S' or 'W' suffix from the timestamp string
+    suffix = timestamp_str[-1]
+    timestamp_str = timestamp_str.rstrip('SW')
+    # Create a datetime object from the timestamp string
+    local_datetime = datetime.strptime(timestamp_str, '%y%m%d%H%M%S')
+    # Create a timezone object for the local timezone
+    if suffix == 'S':
+        local_tz = pytz.timezone('CET')
+    elif suffix == 'W':
+        local_tz = pytz.timezone('CET')  # Replace with the correct timezone for winter time
+    else:
+        raise ValueError("Invalid timestamp suffix: {}".format(suffix))
+    # Set the timezone for the datetime object, taking into account DST rules
+    local_datetime = local_tz.localize(local_datetime, is_dst=None)
+    # Convert the datetime object to UTC and get the UTC timestamp as a float
+    utc_datetime = local_datetime.astimezone(timezone.utc)
+    utc_timestamp = utc_datetime.timestamp()
     return utc_timestamp
 
 
@@ -243,8 +261,8 @@ def main():
         parsed_telegram = parse_telegram(data.decode('utf-8'))
         try:
             timestamp = parsed_telegram["timestamp"]
-            timestamp = timestamp[0]
-            timestamp = timestamp[1:-2]
+            timestamp = str(timestamp[0])
+
             print(timestamp)
             print(convert_to_utc(timestamp))
         except Exception as e:
